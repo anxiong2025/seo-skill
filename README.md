@@ -2,7 +2,8 @@
 
 <p align="center">
   <strong>你的网站为什么 Google 不收录、ChatGPT 不引用？</strong><br>
-  运行一次，Claude 帮你找问题、改代码、上排名。
+  /seo 一条命令，Claude 读懂你的代码，直接修复问题。<br>
+  <em>好产品不该输在技术细节上。</em>
 </p>
 
 <p align="center">
