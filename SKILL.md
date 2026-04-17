@@ -21,14 +21,48 @@ Detect Framework → Crawl Pages → Audit → Report → Fix → Verify
 
 ## Quick Start
 
-When invoked, run the audit pipeline in order:
+### Full Audit (`/seo`)
+
+Run all 20 modules:
 
 1. **Detect** — identify the framework and project structure
 2. **Crawl** — find all pages, layouts, and config files
 3. **Audit** — run all checks from the checklist below
-4. **Report** — present findings grouped by severity (Critical → High → Medium → Low)
+4. **Report** — present score (0-100) and findings grouped by severity
 5. **Fix** — apply fixes with user approval
 6. **Verify** — rebuild and confirm fixes
+
+### Module-Level Audit
+
+When the user requests a specific module, run ONLY that module (skip others). Match user intent to module:
+
+| User Says | Module | Section |
+|-----------|--------|---------|
+| "技术 SEO" / "technical seo" | Technical SEO | 3.1 |
+| "页面优化" / "on-page" / "meta 标签" | On-Page SEO | 3.2 |
+| "结构化数据" / "JSON-LD" / "schema" | Structured Data | 3.3 |
+| "OG" / "社交" / "分享预览" | Open Graph & Social | 3.4 |
+| "favicon" / "图标" | Favicon & Icons | 3.5 |
+| "性能" / "速度" / "Core Web Vitals" | Performance SEO | 3.6 |
+| "内容" / "E-E-A-T" / "content" | Content SEO | 3.7 |
+| "国际化" / "hreflang" / "多语言" | International SEO | 3.8 |
+| "关键词" / "keyword" | Keyword Research | 3.9 |
+| "竞品" / "竞争对手" / "competitor" | Competitor Analysis | 3.10 |
+| "链接" / "内链" / "外链" / "link" | Link Building | 3.11 |
+| "本地" / "local" / "地图" | Local SEO | 3.12 |
+| "电商" / "产品页" / "e-commerce" | E-Commerce SEO | 3.13 |
+| "高级" / "精选摘要" / "零点击" | Advanced SEO | 3.14 |
+| "安全" / "HTTPS" / "security" | Security SEO | 3.15 |
+| "无障碍" / "accessibility" / "a11y" | Accessibility | 3.16 |
+| "HTML" / "验证" / "validation" | HTML Validation | 3.17 |
+| "SSR" / "渲染" / "JS rendering" | JS Rendering | 3.18 |
+| "GEO" / "AI 优化" / "AI 引用" / "llms.txt" | GEO | 3.19 |
+
+When running a single module:
+1. **Detect** framework (always needed)
+2. **Audit** only the requested module
+3. **Report** that module's score + findings
+4. **Fix** with user approval
 
 ---
 
