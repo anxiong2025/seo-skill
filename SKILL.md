@@ -1,7 +1,7 @@
 ---
 name: seo
 description: |
-  Complete SEO + GEO audit, scoring, and fix skill — 37 modules, 300+ checks, 0-100 scoring.
+  Complete SEO + GEO audit, scoring, and fix skill — 37 modules, 700+ checks, 0-100 scoring.
   Covers: foundation, technical SEO, on-page, structured data, OG/social, favicon, performance,
   content, international, keyword research, competitor analysis, link building, local SEO,
   e-commerce SEO (with variants, Merchant Center, seasonal, marketplace), video SEO, advanced SEO,
