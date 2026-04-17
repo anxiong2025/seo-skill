@@ -186,6 +186,179 @@ npx skills add anxiong2025/seo-skill
 
 <br>
 
+<details>
+<summary><strong>完整 SEO 优化清单（150+ 项）</strong></summary>
+
+<br>
+
+### 基础设置清单
+
+1. GA4 分析代码已安装在 `<head>` 中
+2. Google Search Console 验证文件/标签已部署
+3. Bing Webmaster 验证已部署
+4. 无误加的 `noindex` 阻止重要页面被收录
+5. Sitemap 插件已配置并可正常生成
+
+### 技术 SEO 清单
+
+6. `robots.txt` 存在且未屏蔽重要页面
+7. Sitemap 包含所有可索引页面，`<lastmod>` 准确
+8. 每个页面有 `<link rel="canonical">` 且为 HTTPS 绝对路径
+9. 站点使用 HTTPS，无混合内容
+10. 无死链（404）、无重定向链（A→B→C）
+11. URL 无重复变体（www/非www、末尾斜杠统一）
+12. 移动端适配：viewport 标签、文字可读、触摸目标 ≥ 48px
+13. 全局导航菜单存在，关键页面可达
+14. 面包屑导航存在
+15. Footer 包含重要链接（隐私、联系、sitemap）
+
+### On-Page SEO 清单
+
+16. 每页有唯一 `<title>`，50-60 字符，含关键词
+17. 每页有唯一 `<meta description>`，120-155 字符
+18. 每页恰好一个 `<h1>`，标题层级无跳级
+19. 所有图片有描述性 `alt` 属性
+20. 内链 3-5 个/千字，锚文本描述性强
+21. URL 小写、连字符、含关键词、层级 ≤ 3
+
+### 关键词研究清单
+
+22. 3-5 个种子关键词已识别并扩展为长尾词
+23. 每个关键词已分类搜索意图（信息/商业/交易/导航）
+24. 每个可索引页面有明确的主关键词
+25. 主关键词出现在：title、H1、URL、description、首段
+26. 无关键词蚕食（多页面争同一词）
+27. 内容缺口已识别（有搜索量但无对应页面的关键词）
+
+### 竞品分析清单
+
+28. 已识别 3-5 个 SEO 竞品
+29. 竞品页面 title/description/heading/schema 已对比分析
+30. SERP 特征机会已识别（精选摘要、FAQ、HowTo）
+31. 内容差异化策略已明确（深度/时效/原创性）
+
+### 结构化数据清单
+
+32. Organization JSON-LD：name、url、logo、sameAs
+33. BreadcrumbList JSON-LD 匹配可见面包屑
+34. 首页有 WebSite JSON-LD + SearchAction
+35. 文章页有 Article JSON-LD：headline、datePublished、author、publisher
+36. FAQ 页有 FAQPage JSON-LD
+37. 产品页有 Product JSON-LD：name、price、availability
+38. 所有 JSON-LD 语法正确、内容与页面一致
+
+### OG / 社交清单
+
+39. `og:title`、`og:description`、`og:image`（1200×630）齐全
+40. `og:url` 与 canonical 一致
+41. Twitter Card 标签完整
+42. OG 图片文件真实存在且清晰可读
+
+### 链接建设清单
+
+43. 关键页面从首页 3 次点击内可达
+44. 主题集群：Hub 页链接所有相关内容
+45. 无孤立页面（零内链指向）
+46. 锚文本描述性强、包含关键词、有多样性
+47. 无失效外链
+
+### 内容 SEO 清单
+
+48. 文章有作者署名、简介、资质链接
+49. 发布日期和更新日期可见
+50. 无薄内容页面（信息型页面 ≥ 300 字）
+51. 语义化 HTML：`<article>`、`<section>`、`<nav>`
+52. 长文有目录 + 跳转链接
+53. FAQ 部分使用 Q&A 格式 + FAQPage Schema
+54. 高价值关键词有专属落地页
+
+### 性能 SEO 清单
+
+55. LCP < 2.5s、INP < 200ms、CLS < 0.1
+56. 关键 CSS 内联或 preload，JS 使用 defer/async
+57. 图片使用 WebP/AVIF、`loading="lazy"`、有 width/height
+58. 字体 `font-display: swap`，已 preload
+59. 生产构建已 minify + gzip/brotli
+
+### 电商 SEO 清单
+
+60. 每个产品有独特描述（非制造商文案），含长尾词
+61. Product + AggregateRating JSON-LD
+62. 分类页有独特描述文案，定位商业关键词
+63. 缺货产品保留页面、展示状态、推荐替代品
+64. 分面导航不产生重复页（canonical 或 noindex）
+
+### 本地 SEO 清单
+
+65. NAP（名称/地址/电话）全站一致
+66. LocalBusiness JSON-LD 完整（地址、经纬度、营业时间）
+67. 联系页有 Google Maps 嵌入
+68. 多地点有独立落地页，各自有独特内容
+
+### 安全 SEO 清单
+
+69. 全站 HTTPS，无 `http://` 引用
+70. HSTS 头配置
+71. CSP 头存在，无 `unsafe-eval`
+72. 无 API 密钥/token 暴露在客户端代码中
+
+### 无障碍清单
+
+73. 语义化 landmark：`<nav>`、`<main>`、`<header>`、`<footer>`
+74. 文字对比度达 WCAG AA（4.5:1）
+75. 所有 `<input>` 有关联 `<label>`
+76. 焦点指示器可见（无 `outline: none` 无替代）
+77. Tab 键可达所有交互元素
+
+### HTML 验证清单
+
+78. `<!DOCTYPE html>` 声明存在
+79. `<meta charset="utf-8">` 在 `<head>` 最前
+80. 无重复 `<title>` 或 `<meta description>`
+81. 无 lorem ipsum / TODO / 占位文本
+82. 无废弃标签（`<font>`、`<center>`）
+
+### JS 渲染 / SSR 清单
+
+83. 框架配置为 SSG 或 SSR（非纯客户端 SPA）
+84. title、meta、JSON-LD 服务端渲染
+85. 关键内容不依赖 `useEffect` / `onMounted`
+86. SPA 已用 history API（非 `/#/` hash 路由）
+
+### 国际化清单
+
+87. `<html lang="xx">` 匹配页面语言
+88. `hreflang` 标签双向链接 + `x-default`
+89. 语言代码遵循 ISO 639-1
+
+### GEO（AI 引用优化）清单
+
+90. `robots.txt` 允许 GPTBot、ClaudeBot、PerplexityBot
+91. `llms.txt` 文件存在，描述站点主题和内容
+92. 每页前 100 字直接回答核心问题
+93. 数据和统计标注来源和日期
+94. 定义使用 `<strong>术语</strong> 是 [定义]` 格式
+95. 列表和表格用于对比数据（AI 易提取）
+96. FAQ 格式：`<h3>问题？</h3> <p>直接回答...</p>`
+97. 作者 Schema 含资质和社交链接
+98. Organization Schema 含 `sameAs`（Wikipedia/Wikidata）
+99. 品牌名全站统一写法
+100. 实体关系显式表达："[产品] 由 [公司] 为 [受众] 打造"
+
+### 高级 SEO 清单
+
+101. 精选摘要格式：40-60 字直接回答在 H2 后
+102. "People Also Ask" 问题已覆盖为内容
+103. 年份引用为当前年份
+104. `dateModified` 反映真实更新日期
+105. 无侵入式弹窗阻挡首屏内容
+
+> 以上为核心检查项摘要。完整 150+ 项检查请查看 [SKILL.md](SKILL.md)。
+
+</details>
+
+<br>
+
 ## 支持的框架
 
 自动检测，不需要手动配置：
