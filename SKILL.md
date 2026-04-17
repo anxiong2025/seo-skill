@@ -1,14 +1,13 @@
 ---
 name: seo
 description: |
-  Comprehensive SEO audit and optimization skill for any website.
-  Performs technical SEO, on-page optimization, structured data validation,
-  Open Graph / social preview, keyword research & strategy, competitor analysis,
-  link building, local SEO, performance analysis, content SEO, international SEO,
-  and AI search engine optimization (GEO).
-  TRIGGER when: user mentions SEO, asks to improve search rankings, wants to audit
-  meta tags, fix OG images, add structured data, optimize for Google, do keyword
-  research, analyze competitors, or says /seo.
+  Complete SEO audit and optimization skill for any website — 16 modules, 100+ checks.
+  Covers: foundation setup, technical SEO, on-page optimization, structured data,
+  Open Graph / social, favicon, performance, content strategy, international SEO,
+  keyword research, competitor analysis, link building, local SEO, e-commerce SEO,
+  advanced SEO, and generative engine optimization (GEO).
+  TRIGGER when: user mentions SEO, search rankings, meta tags, OG images, structured data,
+  Google optimization, keyword research, competitor analysis, or says /seo.
 ---
 
 # SEO Audit & Optimization Skill
@@ -76,6 +75,37 @@ public/favicon.*, public/og-*.*, public/apple-touch-icon.*
 
 ## 3. Audit Checklist
 
+### 3.0 SEO Foundation Setup (Critical)
+
+Before auditing, ensure the basic SEO infrastructure is in place.
+
+#### Search Console & Analytics
+- [ ] Google Search Console account created and site verified
+- [ ] Bing Webmaster Tools account created and site verified
+- [ ] Google Analytics (GA4) installed and collecting data
+- [ ] Analytics tracking code is properly placed (in `<head>`)
+
+#### Site Indexing
+- [ ] Site is indexed by Google (check: `site:yourdomain.com` in Google)
+- [ ] No password protection blocking crawlers
+- [ ] No `noindex` meta tags on pages that should be indexed
+- [ ] Sitemap submitted to Google Search Console and Bing Webmaster Tools
+
+#### SEO Tools Setup
+- [ ] At least one keyword research tool configured (Google Keyword Planner, or paid: Ahrefs/Semrush/Moz)
+- [ ] Google PageSpeed Insights bookmarked for performance checks
+- [ ] Google Rich Results Test bookmarked for schema validation
+
+**How Claude helps with setup:**
+```
+1. Check if site is indexed: WebFetch "site:domain.com" on Google
+2. Verify robots.txt isn't blocking indexing
+3. Generate sitemap submission instructions for the framework
+4. Provide step-by-step Search Console verification guide
+```
+
+---
+
 ### 3.1 Technical SEO (Critical)
 
 #### robots.txt
@@ -113,6 +143,20 @@ public/favicon.*, public/og-*.*, public/apple-touch-icon.*
 - [ ] No URL variants creating duplicates (www/non-www, trailing slash)
 - [ ] `trailingSlash` config is explicit (not "ignore")
 - [ ] Query parameters don't create duplicate pages
+
+#### Mobile-Friendly
+- [ ] Site is responsive on mobile devices (no horizontal scroll)
+- [ ] Text readable without zooming (min 16px body text)
+- [ ] Tap targets at least 48x48px with adequate spacing
+- [ ] No mobile-only interstitials blocking content
+- [ ] Viewport meta tag present: `<meta name="viewport" content="width=device-width, initial-scale=1">`
+
+#### Site Navigation
+- [ ] Global navigation menu is present and accessible
+- [ ] Key pages reachable from navigation (not buried)
+- [ ] Navigation works on both desktop and mobile
+- [ ] Breadcrumb navigation present on inner pages
+- [ ] Footer includes links to important pages (privacy, contact, sitemap)
 
 ---
 
@@ -267,12 +311,27 @@ Check which schemas are appropriate and whether they're correctly implemented.
 - [ ] Sources cited for claims and statistics
 - [ ] Publication date visible (`datePublished`)
 - [ ] Last updated date visible (`dateModified`)
+- [ ] Consider inviting third-party experts or influencers to contribute content for credibility
 
 #### Content Quality
 - [ ] No thin pages (< 300 words for informational content)
 - [ ] Proper semantic HTML (`<article>`, `<section>`, `<nav>`, `<aside>`)
 - [ ] Readable paragraph length (2-4 sentences)
 - [ ] Subheadings every 200-300 words
+
+#### Content Strategy
+- [ ] Content marketing plan exists (topics, formats, publishing cadence)
+- [ ] Content addresses audience's questions and pain points
+- [ ] Mix of content formats: text, images, video, infographics, tables
+- [ ] Table of contents with jump links for long-form content (helps Featured Snippets)
+- [ ] FAQ sections included where appropriate
+- [ ] AI-assisted content is reviewed and enhanced with unique insights (not published raw)
+
+#### Landing Pages
+- [ ] High-value keywords have dedicated landing pages
+- [ ] Product collection/category pages target commercial keywords
+- [ ] Each landing page has a clear CTA and unique content
+- [ ] No thin landing pages (each must provide genuine value)
 
 ---
 
@@ -392,6 +451,13 @@ For each page, verify keyword placement:
 - [ ] Suggest link-worthy content types for the site's niche
 - [ ] Check for broken outbound links (links to dead external pages)
 
+#### Off-Site Link Building Strategy
+- [ ] Identify guest post opportunities in the niche (search: "[niche] + write for us")
+- [ ] Look for unlinked brand mentions → request link addition
+- [ ] Identify PR/news opportunities for the brand
+- [ ] Consider directory listings (industry-specific, Google Business, Bing Places)
+- [ ] Build relationships with relevant bloggers and influencers
+
 #### Anchor Text Quality
 - [ ] Internal link anchors are descriptive (not "click here" or "read more")
 - [ ] Anchor text includes target page's keyword naturally
@@ -407,14 +473,79 @@ For each page, verify keyword placement:
 - [ ] Embed Google Maps on contact/location page
 - [ ] Local keywords in title/description (city, region, neighborhood)
 
+#### Contact Page
+- [ ] "Contact Us" page exists with complete NAP information
+- [ ] Business hours clearly displayed and kept up to date
+- [ ] Contact form is functional
+- [ ] Physical address matches Google Business Profile exactly
+
+#### Directory Listings
+- [ ] Listed on Google Business Profile
+- [ ] Listed on Bing Places
+- [ ] Listed on Apple Maps
+- [ ] Listed on relevant industry-specific directories
+- [ ] NAP consistent across all directory listings
+
 #### Local Content
-- [ ] Location-specific landing pages (if multi-location)
+- [ ] Location-specific landing pages for each city/region (if multi-location)
+- [ ] Each location page has unique content (not just address swap)
 - [ ] Local schema markup: `areaServed`, `serviceArea`
 - [ ] Customer reviews/testimonials with location signals
 
 ---
 
-### 3.13 GEO — Generative Engine Optimization (Low)
+### 3.13 E-Commerce SEO (If Applicable)
+
+#### Product Pages
+- [ ] Every product has a unique, keyword-rich description (not manufacturer copy)
+- [ ] Product descriptions include long-tail keyword variations
+- [ ] Product descriptions use bullet points and scannable formatting
+- [ ] High-quality product images with descriptive alt text
+- [ ] Product videos or GIFs where possible
+- [ ] **Product** JSON-LD with name, image, description, brand, offers, price, availability
+
+#### Customer Reviews
+- [ ] Review collection system in place (automated post-purchase emails)
+- [ ] Reviews displayed on product pages
+- [ ] **AggregateRating** schema added to product pages
+- [ ] Review stars visible in search results via schema markup
+
+#### Collection/Category Pages
+- [ ] Each collection has unique descriptive content (not just a product grid)
+- [ ] Collection pages target commercial keywords ("best X", "top X", "X for [audience]")
+- [ ] Collection pages include internal links to individual product pages
+
+#### E-Commerce Technical
+- [ ] Product feed submitted to Google Merchant Center (if applicable)
+- [ ] Out-of-stock products handled properly (keep page, show status, suggest alternatives)
+- [ ] Pagination uses `rel="next"` and `rel="prev"` or infinite scroll with crawlable links
+- [ ] Faceted navigation doesn't create duplicate/thin pages (use canonical or noindex)
+
+---
+
+### 3.14 Advanced SEO (Low)
+
+#### Zero-Click Search Optimization
+- [ ] Content formatted to win Featured Snippets (direct answer in 40-60 words after H2)
+- [ ] FAQ sections formatted for "People Also Ask" boxes
+- [ ] Tables and lists used for data that could appear as rich snippets
+- [ ] Content structured for AI Overviews (clear, authoritative, well-cited)
+
+#### SEO Monitoring & Reporting
+- [ ] Google Search Console checked regularly for crawl errors
+- [ ] Key metrics tracked: organic traffic, keyword rankings, search visibility, CTR
+- [ ] Content freshness maintained (update dates, new data, current year references)
+- [ ] Declining pages identified and refreshed
+
+#### User Experience Signals
+- [ ] Low bounce rate (content matches search intent)
+- [ ] Good dwell time (content is engaging and comprehensive)
+- [ ] Clear calls-to-action on every page
+- [ ] No intrusive interstitials or popups blocking content
+
+---
+
+### 3.15 GEO — Generative Engine Optimization (Low)
 
 #### AI Crawler Access
 - [ ] robots.txt does NOT block: GPTBot, ClaudeBot, PerplexityBot, Google-Extended
@@ -491,6 +622,16 @@ When fixing issues:
 **Weak internal links** → Add contextual links from high-authority pages to target pages
 
 **Competitor outperforming** → Match their structured data, surpass their content depth, improve E-E-A-T signals
+
+**Not indexed** → Check robots.txt, remove noindex tags, submit sitemap to Search Console
+
+**Not mobile-friendly** → Add viewport meta tag, fix tap target sizes, test responsive layout
+
+**Missing product schema** → Add Product + AggregateRating JSON-LD, connect to review system
+
+**No Featured Snippet** → Reformat answer as 40-60 word paragraph or list right after the H2 question
+
+**Missing landing page** → Create dedicated page targeting the keyword with unique content + proper on-page SEO
 
 ---
 

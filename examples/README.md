@@ -146,7 +146,7 @@ your-project/
 The skill will:
 1. Auto-detect your framework (Astro, Next.js, Nuxt, etc.)
 2. Find all pages, layouts, and config files
-3. Run 50+ checks across 9 categories
+3. Run 100+ checks across 16 categories
 4. Present a prioritized report (Critical → Low)
 5. Ask which issues to fix
 
@@ -159,6 +159,10 @@ Tell Claude which issues to fix:
 > Add structured data to blog posts
 > Generate an OG image
 > Fix the meta descriptions that are too long
+> Do keyword research for my niche
+> Analyze my top 3 competitors
+> Optimize product pages for e-commerce SEO
+> Set up Google Search Console and Analytics
 ```
 
 ### Step 4: Verify
