@@ -1,4 +1,4 @@
-<h1 align="center">seo-skill</h1>
+<h1 align="center">SEO专家.skill</h1>
 
 <blockquote align="center">
   「一行命令，让 Claude 帮你把 SEO 从审计到修复全搞定」
@@ -6,8 +6,8 @@
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
-  <img src="https://img.shields.io/badge/Claude_Code-Skill-blueviolet.svg" alt="Claude Code">
-  <img src="https://img.shields.io/badge/Checks-50+-blue.svg" alt="50+ Checks">
+  <img src="https://img.shields.io/badge/Claude_Code-Skill-blueviolet?logo=data:image/svg%2bxml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0id2hpdGUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMTAiLz48L3N2Zz4=" alt="Claude Code Skill">
+  <img src="https://img.shields.io/badge/9_模块-50+_检查项-blue.svg" alt="50+ Checks">
 </p>
 
 <br>
