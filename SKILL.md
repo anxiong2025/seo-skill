@@ -2,11 +2,13 @@
 name: seo
 description: |
   Comprehensive SEO audit and optimization skill for any website.
-  Performs technical SEO checks, on-page optimization, structured data validation,
-  Open Graph / social preview fixes, performance analysis, content SEO review,
-  and international SEO verification.
+  Performs technical SEO, on-page optimization, structured data validation,
+  Open Graph / social preview, keyword research & strategy, competitor analysis,
+  link building, local SEO, performance analysis, content SEO, international SEO,
+  and AI search engine optimization (GEO).
   TRIGGER when: user mentions SEO, asks to improve search rankings, wants to audit
-  meta tags, fix OG images, add structured data, optimize for Google, or says /seo.
+  meta tags, fix OG images, add structured data, optimize for Google, do keyword
+  research, analyze competitors, or says /seo.
 ---
 
 # SEO Audit & Optimization Skill
@@ -290,7 +292,129 @@ Check which schemas are appropriate and whether they're correctly implemented.
 
 ---
 
-### 3.9 GEO — Generative Engine Optimization (Low)
+### 3.9 Keyword Research & Strategy (High)
+
+#### Seed Keyword Discovery
+- [ ] Identify 3-5 seed keywords based on the site's products/services/content
+- [ ] Expand each seed into long-tail variations (3-5 words, more specific intent)
+- [ ] Categorize by search intent: Informational / Navigational / Commercial / Transactional
+- [ ] Map keywords to existing pages (1 primary keyword per page, 2-3 secondary)
+
+**How Claude does keyword research (no paid tools needed):**
+1. Analyze site content to identify topics and themes
+2. Generate keyword variations using linguistic patterns:
+   - Question forms: "什么是X", "如何X", "X怎么选"
+   - Comparison forms: "X vs Y", "X和Y区别"
+   - Long-tail: "2026年最好的X", "适合初学者的X"
+   - Intent signals: "X教程", "X价格", "X推荐", "买X"
+3. Use WebFetch to check Google autocomplete and "People also ask"
+4. Analyze competitor pages for keyword ideas (see 3.10)
+
+#### Page-Keyword Alignment Audit
+- [ ] Every indexable page targets a primary keyword
+- [ ] Primary keyword appears in: title, H1, first paragraph, URL, meta description
+- [ ] Secondary keywords appear naturally in H2s and body content
+- [ ] No keyword cannibalization (multiple pages targeting the same keyword)
+- [ ] No keyword stuffing (keyword density > 3% is suspicious)
+
+**How to check alignment:**
+```
+For each page, verify keyword placement:
+  title:       contains primary keyword? ✓/✗
+  H1:          contains primary keyword? ✓/✗
+  URL slug:    contains primary keyword? ✓/✗
+  description: contains primary keyword? ✓/✗
+  first 100 words: mentions primary keyword? ✓/✗
+  H2/H3:      contain secondary keywords? ✓/✗
+```
+
+#### Content Gap Analysis
+- [ ] Identify topics the site should cover but doesn't have pages for
+- [ ] Check if high-value keywords have dedicated landing pages
+- [ ] Identify thin pages that could be expanded with keyword-targeted content
+- [ ] Look for internal search queries (if analytics available) that have no matching page
+
+#### Search Intent Matching
+- [ ] Informational queries → Blog posts, guides, tutorials
+- [ ] Commercial queries → Comparison pages, reviews, "best of" lists
+- [ ] Transactional queries → Product pages, pricing pages, signup pages
+- [ ] Navigational queries → Homepage, about page, brand pages
+- [ ] Page content type matches the dominant intent for its target keyword
+
+---
+
+### 3.10 Competitor & SERP Analysis (High)
+
+#### Competitor Page Analysis
+- [ ] Identify 3-5 competitor sites ranking for target keywords
+- [ ] For each competitor, analyze with WebFetch:
+  - Title tag format and length
+  - Meta description messaging
+  - H1/H2 heading structure and keyword usage
+  - JSON-LD structured data types used
+  - Content length and depth
+  - Internal linking patterns
+
+**How to analyze competitors:**
+```
+1. WebFetch the competitor's page
+2. Extract: title, description, headings, word count, schema types
+3. Compare against our page targeting the same keyword
+4. Note what they do better → actionable improvements
+```
+
+#### SERP Feature Opportunities
+- [ ] Check if target keywords trigger rich results (FAQ, HowTo, Review, etc.)
+- [ ] If rich results exist → ensure matching structured data is implemented
+- [ ] Check for Featured Snippet format (paragraph, list, table) → match format
+- [ ] Check "People Also Ask" questions → create content answering them
+
+#### Content Differentiation
+- [ ] Our content offers unique value not found in top 5 results
+- [ ] Better depth, freshness, or perspective than competitors
+- [ ] Author expertise/credentials visible (E-E-A-T advantage)
+- [ ] Unique data, case studies, or original research included
+
+---
+
+### 3.11 Link Building & Authority (Medium)
+
+#### Internal Link Architecture
+- [ ] Key pages are reachable within 3 clicks from homepage
+- [ ] Hub pages link to all related content (topic clusters)
+- [ ] New content is linked from existing high-authority pages
+- [ ] Breadcrumb navigation reflects site hierarchy
+- [ ] No orphan pages (pages with zero internal links pointing to them)
+
+#### External Link Profile (Audit Only)
+- [ ] Check if site has backlinks (use WebFetch to check referral mentions)
+- [ ] Identify linkable assets (tools, guides, data, infographics)
+- [ ] Suggest link-worthy content types for the site's niche
+- [ ] Check for broken outbound links (links to dead external pages)
+
+#### Anchor Text Quality
+- [ ] Internal link anchors are descriptive (not "click here" or "read more")
+- [ ] Anchor text includes target page's keyword naturally
+- [ ] Variety in anchor text (not all links use the exact same text)
+
+---
+
+### 3.12 Local SEO (If Applicable)
+
+#### Google Business Profile Signals
+- [ ] NAP (Name, Address, Phone) consistent across site
+- [ ] **LocalBusiness** JSON-LD with address, geo, openingHours
+- [ ] Embed Google Maps on contact/location page
+- [ ] Local keywords in title/description (city, region, neighborhood)
+
+#### Local Content
+- [ ] Location-specific landing pages (if multi-location)
+- [ ] Local schema markup: `areaServed`, `serviceArea`
+- [ ] Customer reviews/testimonials with location signals
+
+---
+
+### 3.13 GEO — Generative Engine Optimization (Low)
 
 #### AI Crawler Access
 - [ ] robots.txt does NOT block: GPTBot, ClaudeBot, PerplexityBot, Google-Extended
@@ -357,6 +481,16 @@ When fixing issues:
 **Missing favicon** → Create SVG favicon + ICO fallback, add `<link>` tags
 
 **Broken hreflang** → Ensure bidirectional links, add x-default, verify ISO codes
+
+**Keyword not in title/H1** → Rewrite title and H1 to include primary keyword naturally
+
+**Keyword cannibalization** → Merge competing pages or differentiate their target keywords
+
+**Missing content for keyword** → Create new page targeting the gap keyword with proper on-page SEO
+
+**Weak internal links** → Add contextual links from high-authority pages to target pages
+
+**Competitor outperforming** → Match their structured data, surpass their content depth, improve E-E-A-T signals
 
 ---
 
