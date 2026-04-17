@@ -46,18 +46,6 @@
 
 <br>
 
-## 为什么是现在
-
-**三件事同时发生：**
-
-🌊 **AI 搜索崛起** ——ChatGPT、Perplexity、Google AI Overviews 正在重新分配流量。传统 SEO 只解决一半；另一半是 GEO：让 AI 愿意引用你的内容。
-
-🚀 **中国品牌出海** —— 从独立站 DTC 到 SaaS 出海，从 TikTok 卖货到工具站全球化。出海不是翻译官网就够了，Google 玩法完全不同：域名策略、hreflang、Western E-E-A-T、AI 搜索可见度，每一项都关乎成败。
-
-🧠 **Claude 成了 SEO 专家** —— 你不需要雇 SEO 顾问，也不需要装 SEMrush / Ahrefs / Screaming Frog 一整套工具。一个 SKILL.md 文件，Claude 读懂你的代码、扫描你的站点、评出 0-100 分、直接改好代码。
-
-<br>
-
 ## 适用场景
 
 **谁适合用这个 Skill？**
