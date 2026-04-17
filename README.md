@@ -7,20 +7,21 @@
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
   <img src="https://img.shields.io/badge/Claude_Code-Skill-blueviolet?logo=data:image/svg%2bxml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0id2hpdGUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMTAiLz48L3N2Zz4=" alt="Claude Code Skill">
-  <img src="https://img.shields.io/badge/16_模块-100+_检查项-blue.svg" alt="80+ Checks">
+  <img src="https://img.shields.io/badge/20_模块-150+_检查项-blue.svg" alt="150+ Checks">
+  <img src="https://img.shields.io/badge/评分-0--100_A--F-orange.svg" alt="Scoring System">
 </p>
 
 <br>
 
 <p align="center">
-  <strong>搜索排名上不去？流量涨不动？社交分享没预览？</strong><br>
-  <strong>一个 Skill，把 SEO 专家的完整知识体系交给 Claude。</strong>
+  <strong>搜索排名上不去？流量涨不动？AI 搜索找不到你？</strong><br>
+  <strong>一个 Skill，把 SEO + GEO 专家的完整知识体系交给 Claude。</strong>
 </p>
 
 <p align="center">
-  SEO 决定了用户能不能找到你。<br>
-  基础设置、关键词研究、竞品分析、技术 SEO、结构化数据、链接建设、电商 SEO、AI 爬虫优化<br>
-  ——16 大类 100+ 项检查，覆盖从 Google 排名到 ChatGPT 引用的每一个细节。<br>
+  SEO 决定了用户能不能找到你，GEO 决定了 AI 会不会引用你。<br>
+  20 大模块、150+ 项检查、量化评分（0-100 / A-F），<br>
+  覆盖从 Google 排名到 ChatGPT 引用、从关键词研究到安全审计的每一个细节。<br>
   不只是告诉你哪里有问题，而是直接帮你修好，让流量真正涨起来。
 </p>
 
@@ -44,27 +45,38 @@
 
 Claude    ❯ 检测到 Astro 项目，开始审计...
 
-            ## SEO Audit Report
+            ## SEO Audit Report — agentskillsdev.com
+            ## Score: 62/100 (D)
+
+            📊 Score Breakdown
+            ┌─────────────────┬───────┬────────┬──────────┐
+            │ Category        │ Score │ Weight │ Weighted │
+            ├─────────────────┼───────┼────────┼──────────┤
+            │ Technical SEO   │ 85    │ 15%    │ 12.8     │
+            │ On-Page SEO     │ 70    │ 15%    │ 10.5     │
+            │ GEO (AI 优化)   │ 30    │ 12%    │ 3.6      │
+            │ Keyword Research│ 40    │ 10%    │ 4.0      │
+            │ Structured Data │ 55    │ 8%     │ 4.4      │
+            │ ...             │ ...   │ ...    │ ...      │
+            └─────────────────┴───────┴────────┴──────────┘
 
             ### 🔴 Critical (2)
             1. OG 图不存在 — public/og-default.png 被引用但文件缺失
                → 生成 1200×630 品牌图
-            2. favicon.ico 缺失 — <link rel="icon"> 指向空文件
-               → 创建 SVG + ICO favicon
+            2. GEO: 缺少 llms.txt — AI 爬虫无法理解站点结构
+               → 创建 public/llms.txt
 
-            ### 🟠 High (3)
+            ### 🟠 High (4)
             1. 课程页缺少 Article JSON-LD — src/layouts/DocsLayout.astro
-               → 添加 datePublished、author、publisher 结构化数据
             2. 12 张图片缺少 alt 属性 — src/pages/courses/*.md
-               → 补充描述性 alt 文本
-            3. Organization schema sameAs 为空数组
-               → 填入 GitHub、Twitter 等社交链接
+            3. 页面关键词未对齐 — 6 个页面 title 不含目标关键词
+            4. AI 引用结构弱 — 缺少量化数据和来源引用
 
-            ### ✅ Passing
+            ### ✅ Passing (12)
             - robots.txt 配置正确，AI 爬虫已放行
             - Sitemap 已生成，优先级设置合理
-            - Canonical URL 全覆盖
-            - HTTPS 已配置
+            - HTTPS 已配置，无混合内容
+            - HTML 结构有效，无重复标签
 
             要修复哪些？输入"修复全部"或选择类别。
 ```
@@ -127,13 +139,13 @@ npx skills add anxiong2025/seo-skill
 然后在 Claude Code 里直接调用：
 
 ```
-> /seo                                  # 完整审计（16 模块 100+ 检查项）
+> /seo                                  # 完整审计 + 评分（20 模块 150+ 检查项）
 > 帮我做关键词研究，我们是卖蜡烛的          # 关键词研究
 > 分析一下排名前三的竞品页面               # 竞品分析
+> 帮我做 GEO 优化，让 AI 能引用我的内容    # AI 引用优化
 > 帮我修复 meta 标签                     # On-Page 修复
 > 给所有产品页加上 Product Schema         # 电商 SEO
-> 优化产品描述，加入长尾关键词              # 产品页优化
-> 帮我做零点击搜索优化                    # 高级 SEO
+> 检查一下网站安全和无障碍                 # Security + Accessibility
 > 生成一个 OG 社交分享图                  # 社交预览
 ```
 
@@ -141,26 +153,33 @@ npx skills add anxiong2025/seo-skill
 
 ## 检查了什么
 
-完整 SEO 审计覆盖 16 大类：
+完整 SEO + GEO 审计覆盖 20 大模块，每次审计输出 **0-100 分 + A-F 等级**：
 
-| 类别 | 检查项 | 级别 |
+| 模块 | 检查项 | 权重 |
 |:------|:--------|:------:|
-| **基础设置** | GA4 代码检查、Search Console 验证文件、Bing 验证、noindex 检查、收录控制 | 🔴 |
-| **技术 SEO** | robots.txt、sitemap、canonical、HTTPS、404/重定向链、重复内容、移动端适配、导航菜单 | 🔴 |
-| **On-Page SEO** | title（50-60字符）、description（120-155字符）、H1 层级、图片 alt、内链、URL 结构 | 🔴 |
-| **关键词研究** | 种子词扩展、长尾词挖掘、搜索意图分类、页面关键词对齐、关键词蚕食检测、内容缺口分析 | 🟠 |
-| **竞品分析** | 竞品页面抓取对比、SERP 特征机会、精选摘要优化、内容差异化策略 | 🟠 |
-| **结构化数据** | Article、Organization、BreadcrumbList、Course、FAQ、HowTo、Product 等 12 种 JSON-LD | 🟠 |
-| **OG / 社交** | og:image（1200×630）、Twitter Card、社交预览验证 | 🟠 |
-| **链接建设** | 内链架构、主题集群、锚文本优化、站外策略（客座文章、新闻提及、品牌链接） | 🟡 |
-| **本地 SEO** | NAP 一致性、LocalBusiness JSON-LD、联系页面、Google Maps 嵌入、城市落地页 | 🟡 |
-| **电商 SEO** | 产品描述优化、Product/AggregateRating Schema、分类页内容、分面导航、缺货处理 | 🟡 |
-| **Favicon** | favicon.ico、favicon.svg、apple-touch-icon | 🟡 |
-| **性能 SEO** | LCP < 2.5s、INP < 200ms、CLS < 0.1、字体加载、图片优化 | 🟡 |
-| **内容 SEO** | E-E-A-T 信号、内容结构格式化、FAQ、目录跳转、落地页优化 | 🟡 |
-| **国际化** | hreflang 双向链接、x-default、lang 属性、ISO 语言代码 | 🟡 |
-| **高级 SEO** | 零点击搜索优化、精选摘要格式、内容时效性、用户体验代码检查 | 🟢 |
-| **GEO（AI 优化）** | GPTBot/ClaudeBot 爬虫放行、引用友好结构、语义化标记 | 🟢 |
+| **技术 SEO** | robots.txt、sitemap、canonical、HTTPS、重定向、移动端、导航 | 15% |
+| **On-Page SEO** | title、description、H1 层级、图片 alt、内链、URL 结构 | 15% |
+| **GEO（AI 引用优化）** | llms.txt、AI 爬虫放行、引用友好结构、实体优化、语义标记、多引擎适配 | 12% |
+| **关键词研究** | 种子词扩展、长尾词、搜索意图、页面对齐、蚕食检测、内容缺口 | 10% |
+| **结构化数据** | 12 种 JSON-LD（Article、Product、FAQ、HowTo 等） | 8% |
+| **内容 SEO** | E-E-A-T 信号、内容结构、FAQ、目录跳转、落地页 | 8% |
+| **竞品分析** | 页面抓取对比、SERP 特征、精选摘要、内容差异化 | 7% |
+| **链接建设** | 内链架构、主题集群、锚文本、站外研究 | 5% |
+| **性能 SEO** | LCP、INP、CLS、字体、图片、压缩 | 5% |
+| **OG / 社交** | og:image（1200×630）、Twitter Card、预览验证 | 4% |
+| **电商 SEO** | 产品描述、Product Schema、分类页、分面导航 | 3% |
+| **安全 SEO** | HTTPS/HSTS、CSP、密钥泄露、混合内容 | 2% |
+| **无障碍** | ARIA、颜色对比、表单标签、键盘导航、触摸目标 | 2% |
+| **HTML 验证** | DOCTYPE、charset、head 结构、重复标签、占位文本 | 1% |
+| **JS 渲染 / SSR** | 服务端渲染检查、hydration、SPA 回退、noscript | 1% |
+| **Favicon** | favicon.ico、favicon.svg、apple-touch-icon | 1% |
+| **国际化** | hreflang、x-default、lang 属性、ISO 语言代码 | 1% |
+| **基础设置** | GA4 代码、验证文件、noindex 检查 | — |
+| **本地 SEO** | NAP、LocalBusiness JSON-LD、联系页、城市页 | — |
+| **高级 SEO** | 零点击优化、精选摘要、内容时效性、UX 检查 | — |
+
+> **评分规则**：每项检查 Pass/Partial/Fail → 加权求和 → 0-100 总分。<br>
+> **Critical Fail Cap**：标题缺失、sitemap 缺失、robots 屏蔽等关键问题直接封顶 60 分。
 
 <br>
 
@@ -208,7 +227,7 @@ Claude 审计时会自动调用这些参考文件：
 
 ```
 seo-skill/
-├── SKILL.md                              # SEO 审计操作系统（16 模块 100+ 检查项）
+├── SKILL.md                              # SEO + GEO 审计系统（20 模块 150+ 检查 + 评分）
 ├── README.md                             # 你正在看的这个
 ├── LICENSE                               # MIT
 ├── references/
@@ -231,9 +250,9 @@ seo-skill/
 
 SEO 不是可选项——它是你的内容和用户之间的桥梁。做好了，自然流量持续增长，获客成本趋近于零。做不好，再好的内容也只是自娱自乐。
 
-问题是：SEO 的知识太零散了。基础设置、关键词研究、竞品分析、技术优化、结构化数据、电商 SEO、链接建设、AI 搜索适配……每个都有讲究，每个都容易遗漏。
+问题是：SEO 的知识太零散了。技术优化、关键词策略、结构化数据、安全审计、无障碍、AI 引用优化……每个都有讲究，每个都容易遗漏。而且 AI 搜索的崛起（ChatGPT、Perplexity、Google AI Overviews）让传统 SEO 只是一半——另一半是 GEO（让 AI 引用你的内容）。
 
-这个 Skill 把资深 SEO 专家的完整知识体系交给 Claude。一句 `/seo`，从诊断到修复，让你的网站真正被看见。
+这个 Skill 把 SEO + GEO 专家的完整知识体系交给 Claude。20 个模块、150+ 项检查、量化评分（0-100），一句 `/seo` 从诊断到修复，让你的网站被搜索引擎看见、被 AI 引用。
 
 > 不用装任何 npm 包，不用配置任何东西。一个 SKILL.md 文件，就是一个 SEO 专家。
 
@@ -253,4 +272,4 @@ MIT — 随便用，随便改，尽情去用吧！
 
 ---
 
-<p align="center"><em>让每一个好产品都能被搜索引擎看见，被用户找到。</em></p>
+<p align="center"><em>让每一个好产品都能被搜索引擎看见，被用户找到，被 AI 引用。</em></p>

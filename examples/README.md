@@ -146,9 +146,10 @@ your-project/
 The skill will:
 1. Auto-detect your framework (Astro, Next.js, Nuxt, etc.)
 2. Find all pages, layouts, and config files
-3. Run 100+ checks across 16 categories
-4. Present a prioritized report (Critical → Low)
-5. Ask which issues to fix
+3. Run 150+ checks across 20 modules
+4. Score your site 0-100 with A-F grade
+5. Present a prioritized report (Critical → Low)
+6. Ask which issues to fix
 
 ### Step 3: Fix issues
 

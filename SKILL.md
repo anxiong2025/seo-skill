@@ -1,13 +1,14 @@
 ---
 name: seo
 description: |
-  Complete SEO audit and optimization skill for any website — 16 modules, 100+ checks.
-  Covers: foundation setup, technical SEO, on-page optimization, structured data,
-  Open Graph / social, favicon, performance, content strategy, international SEO,
-  keyword research, competitor analysis, link building, local SEO, e-commerce SEO,
-  advanced SEO, and generative engine optimization (GEO).
-  TRIGGER when: user mentions SEO, search rankings, meta tags, OG images, structured data,
-  Google optimization, keyword research, competitor analysis, or says /seo.
+  Complete SEO + GEO audit, scoring, and fix skill — 20 modules, 150+ checks, 0-100 scoring.
+  Covers: foundation, technical SEO, on-page, structured data, OG/social, favicon, performance,
+  content, international, keyword research, competitor analysis, link building, local SEO,
+  e-commerce SEO, advanced SEO, security, accessibility, HTML validation, JS rendering/SSR,
+  and deep GEO (Generative Engine Optimization for AI citation).
+  Produces a weighted score (A-F grade) with critical fail cap.
+  TRIGGER when: user mentions SEO, GEO, search rankings, AI optimization, meta tags, OG images,
+  structured data, keyword research, competitor analysis, or says /seo.
 ---
 
 # SEO Audit & Optimization Skill
@@ -556,31 +557,318 @@ Then verify our content matches the winning format.
 
 ---
 
-### 3.15 GEO — Generative Engine Optimization (Low)
+### 3.15 Security SEO (Medium)
 
-#### AI Crawler Access
-- [ ] robots.txt does NOT block: GPTBot, ClaudeBot, PerplexityBot, Google-Extended
-- [ ] Or: intentionally blocks with documented reason
+#### HTTPS & Transport Security
+- [ ] All pages served over HTTPS (no HTTP URLs in links, assets, or config)
+- [ ] HSTS header configured: `Strict-Transport-Security: max-age=31536000; includeSubDomains`
+- [ ] No mixed content (HTTP resources loaded on HTTPS pages)
+- [ ] SSL/TLS version is modern (TLS 1.2+ only)
 
-#### Citation-Friendly Structure
-- [ ] Clear topic sentences at paragraph start
-- [ ] Explicit claims with supporting data
-- [ ] Proper attribution for statistics and quotes
-- [ ] Content structured for extraction (lists, tables, definitions)
+**How to check:**
+```
+Grep for "http://" in all source files (should only appear in comments or schemas)
+Check framework config / hosting config for HSTS headers
+Check <head> for mixed content: http:// in src/href attributes
+```
 
-#### Semantic Clarity
-- [ ] Markdown-friendly HTML (proper headings, lists, paragraphs)
-- [ ] No obfuscated content (hidden behind JS-only rendering)
-- [ ] Clean, extractable text in semantic elements
+#### Content Security Policy
+- [ ] CSP header or `<meta http-equiv="Content-Security-Policy">` present
+- [ ] CSP blocks inline scripts unless explicitly needed (`script-src` directive)
+- [ ] No `unsafe-eval` or `unsafe-inline` without justification
+
+#### Sensitive Data Exposure
+- [ ] No API keys, tokens, or secrets hardcoded in client-side code
+- [ ] No `.env` files committed to public repository
+- [ ] No server-side credentials exposed in HTML source or JavaScript bundles
+- [ ] `X-Robots-Tag` used appropriately for sensitive pages
+
+**How to check:**
+```
+Grep for patterns: "sk-", "api_key", "secret", "token", "password" in src/ and public/
+Check .gitignore includes .env* files
+Verify no sensitive data in build output
+```
 
 ---
 
-## 4. Report Format
+### 3.16 Accessibility SEO (Medium)
+
+Search engines reward accessible websites. Accessibility issues directly impact SEO rankings.
+
+#### ARIA & Semantic Roles
+- [ ] Navigation landmarks: `<nav>`, `<main>`, `<header>`, `<footer>` used properly
+- [ ] Interactive elements have accessible names (buttons, links, inputs)
+- [ ] `role` attributes used correctly (not redundant with semantic HTML)
+- [ ] `aria-label` or `aria-labelledby` on icon-only buttons
+
+#### Color & Contrast
+- [ ] Text color contrast ratio meets WCAG AA (4.5:1 for normal text, 3:1 for large text)
+- [ ] Information not conveyed by color alone (icons, text labels as backup)
+- [ ] Focus indicators visible on interactive elements (not `outline: none` without replacement)
+
+#### Forms & Inputs
+- [ ] All `<input>` have associated `<label>` (via `for`/`id` or wrapping)
+- [ ] Required fields marked with `aria-required="true"` or `required` attribute
+- [ ] Error messages programmatically associated with inputs (`aria-describedby`)
+- [ ] Form submission feedback is accessible (not just visual)
+
+#### Keyboard & Touch
+- [ ] All interactive elements reachable via Tab key
+- [ ] Tab order is logical (follows visual layout)
+- [ ] Tap targets at least 44x44px on mobile (48x48px recommended)
+- [ ] No keyboard traps (modal dialogs can be dismissed with Escape)
+- [ ] Skip-to-content link present for keyboard users
+
+**How to check:**
+```
+Grep for "outline: none" or "outline: 0" without replacement focus styles
+Check all <button> and <a> elements have text content or aria-label
+Verify all <input> have associated <label>
+Check for landmark elements: <nav>, <main>, <header>, <footer>
+```
+
+---
+
+### 3.17 HTML Validation (Medium)
+
+Invalid HTML can confuse search engine parsers and reduce crawl efficiency.
+
+#### Document Structure
+- [ ] `<!DOCTYPE html>` declaration present
+- [ ] `<html>` has `lang` attribute matching page language
+- [ ] `<meta charset="utf-8">` is the first element in `<head>`
+- [ ] `<head>` contains `<title>` before any other tags
+- [ ] No duplicate `<title>` tags
+- [ ] No duplicate `<meta name="description">` tags
+
+#### Head Element Integrity
+- [ ] No `<script>` or `<style>` before `<meta charset>`
+- [ ] No body content inside `<head>`
+- [ ] All `<link>` and `<meta>` tags properly closed (self-closing or void)
+- [ ] No deprecated HTML tags (`<font>`, `<center>`, `<marquee>`, etc.)
+
+#### Content Integrity
+- [ ] No lorem ipsum or placeholder text in production pages
+- [ ] No empty `<a>` tags (links without href or text)
+- [ ] No duplicate `id` attributes on the same page
+- [ ] Images use modern `<picture>` or `<img>` (not `<embed>` for images)
+- [ ] No broken HTML entities (unescaped `&`, `<`, `>` in text content)
+
+**How to check:**
+```
+Grep for "lorem ipsum", "placeholder", "TODO", "FIXME" in page content
+Grep for duplicate id attributes in components
+Verify DOCTYPE in layout files
+Check <head> structure in all layout templates
+```
+
+---
+
+### 3.18 JavaScript Rendering & SSR (Medium)
+
+Search engines may not execute JavaScript fully. Ensure critical content is server-rendered.
+
+#### Server-Side Rendering Check
+- [ ] Framework is configured for SSG or SSR (not client-only SPA)
+- [ ] Critical content (titles, headings, text, links) present in initial HTML response
+- [ ] JSON-LD structured data rendered server-side (not injected via client JS)
+- [ ] Meta tags rendered server-side (not set via `document.title` in client JS)
+
+**How to check by framework:**
+```
+Astro: SSG by default ✓ — verify no client:only components contain SEO-critical content
+Next.js: Check for 'use client' on pages — SEO content should be in Server Components
+Nuxt: SSR by default ✓ — verify useFetch/useAsyncData for data-dependent SEO content
+SvelteKit: SSR by default ✓ — verify load functions for SEO data
+Static HTML: Already server-rendered ✓
+```
+
+#### Hydration & Client-Side Issues
+- [ ] No content hidden behind "Read more" / "Show more" buttons requiring JS click
+- [ ] No essential content loaded only via `useEffect` / `onMounted` (invisible to crawlers)
+- [ ] No content behind authentication/login gates that should be indexed
+- [ ] Lazy-loaded content below fold still accessible without JS (via `<noscript>` fallback or SSR)
+
+#### SPA-Specific Concerns
+- [ ] If SPA: pre-rendering or SSR configured for all indexable routes
+- [ ] If SPA: hash-based routing (`/#/page`) replaced with history API (`/page`)
+- [ ] If SPA: `<noscript>` tag provides meaningful fallback content
+- [ ] Dynamic `<title>` and `<meta>` tags update on route change (client-side routing)
+
+---
+
+### 3.19 GEO — Generative Engine Optimization (High)
+
+GEO (Generative Engine Optimization) optimizes content to be **cited by AI systems** — ChatGPT, Perplexity, Google AI Overviews, Claude. This is as important as traditional SEO for future traffic.
+
+#### AI Crawler Access & Discovery
+- [ ] robots.txt explicitly ALLOWS: GPTBot, ClaudeBot, PerplexityBot, Google-Extended, Googlebot
+- [ ] Or: intentionally blocks specific AI crawlers with documented business reason
+- [ ] `llms.txt` file exists at site root (plain-text site description for LLMs)
+- [ ] `llms-full.txt` exists with comprehensive site content summary (optional but recommended)
+- [ ] Sitemap includes all content pages AI should discover
+
+**How to create llms.txt:**
+```
+# llms.txt — placed at public/llms.txt
+# Site: [Your Site Name]
+# Description: [What your site is about]
+# Key Topics: [Main topics covered]
+# Content Types: [Blog posts, tutorials, product pages, etc.]
+# Language: [Primary language]
+# Contact: [How to reference/cite]
+```
+
+#### Citation-Optimized Content Structure
+- [ ] Every page has a clear, direct answer to its primary question in the first 100 words
+- [ ] Claims are specific and quantified (not vague: "many" → "73% of users")
+- [ ] Statistics and data points include sources and dates
+- [ ] Definitions follow the pattern: `<strong>Term</strong> is [clear definition]`
+- [ ] Lists and tables used for comparisons (AI systems extract structured data easily)
+- [ ] Each section is self-contained (can be cited independently without surrounding context)
+
+#### Authority & Trust Signals for AI
+- [ ] Author name, credentials, and expertise visible on every article
+- [ ] Author schema (Person) with `sameAs` links to authoritative profiles
+- [ ] Organization schema with `sameAs` links to verified social/professional accounts
+- [ ] Published date and last modified date visible and in JSON-LD
+- [ ] External citations to authoritative sources (links to .gov, .edu, industry leaders)
+- [ ] Original research, data, or unique insights that AI systems can't find elsewhere
+
+#### Semantic Markup for AI Extraction
+- [ ] Proper heading hierarchy (H1 → H2 → H3) creates a clear document outline
+- [ ] `<article>` wraps main content, `<aside>` wraps supplementary content
+- [ ] `<blockquote>` with `cite` attribute for quoted content
+- [ ] `<dfn>` for term definitions, `<abbr>` for abbreviations
+- [ ] `<figure>` + `<figcaption>` for images/charts with descriptions
+- [ ] `<time datetime="ISO-8601">` for all dates
+- [ ] `<code>` for technical terms, `<mark>` for highlighted key points
+
+#### AI Overview & Featured Answer Optimization
+- [ ] FAQ content follows strict Q&A format: `<h3>Question?</h3> <p>Direct answer...</p>`
+- [ ] "What is X" questions answered in exactly 40-60 words (paragraph snippet length)
+- [ ] "How to X" content uses numbered steps with `<ol>` (list snippet format)
+- [ ] Comparison content uses `<table>` with clear column headers (table snippet format)
+- [ ] Content anticipates follow-up questions and answers them in subsequent sections
+
+#### Entity & Knowledge Graph Optimization
+- [ ] Brand/product names used consistently (exact same spelling/casing everywhere)
+- [ ] Entity relationships made explicit: "[Product] is made by [Company] for [Audience]"
+- [ ] Key entities linked to authoritative sources (Wikipedia, official sites)
+- [ ] `sameAs` in Organization/Person schema links to Wikidata, Wikipedia if applicable
+- [ ] Topic clusters: hub page links to all related content, each sub-page links back
+
+#### Multi-Engine Optimization
+- [ ] Content optimized for Google AI Overviews (authoritative, well-structured, cited)
+- [ ] Content optimized for ChatGPT citations (clear claims, named sources, specific data)
+- [ ] Content optimized for Perplexity (direct answers, numbered lists, source URLs)
+- [ ] Content optimized for Claude (semantic HTML, logical structure, factual accuracy)
+- [ ] Monitor: use WebFetch to check if your content appears in AI answers for target queries
+
+**How to check AI citation:**
+```
+For each target keyword:
+1. WebFetch Google search → check if AI Overview cites your site
+2. Ask the question in conversational form → check if AI would cite your content structure
+3. Verify your content has: direct answer + supporting data + authoritative source
+4. Compare your content structure against what AI systems currently cite
+```
+
+---
+
+## 4. Scoring System
+
+Every audit produces a quantified score — not just a checklist.
+
+### 4.1 Category Weights
+
+Each category has a weight reflecting its impact on search rankings:
+
+| Category | Weight | Rationale |
+|----------|:------:|-----------|
+| Technical SEO | 15% | Foundation — blocks indexing if broken |
+| On-Page SEO | 15% | Direct ranking signals |
+| GEO (AI Optimization) | 12% | Future of search — growing fast |
+| Keyword Research | 10% | Targeting the right terms |
+| Structured Data | 8% | Rich results & AI extraction |
+| Content SEO | 8% | E-E-A-T & content quality |
+| Competitor Analysis | 7% | Relative positioning |
+| Link Building | 5% | Authority signals |
+| Performance SEO | 5% | Core Web Vitals |
+| OG / Social | 4% | Social visibility |
+| E-Commerce SEO | 3% | If applicable (0% if not) |
+| Security | 2% | Trust signals |
+| Accessibility | 2% | Usability & ranking bonus |
+| HTML Validation | 1% | Crawl efficiency |
+| JS Rendering | 1% | Content discoverability |
+| Favicon | 1% | Brand recognition |
+| International SEO | 1% | If applicable (0% if not) |
+| Local SEO | 0% | If applicable, borrows from other weights |
+| Foundation Setup | 0% | Prerequisites, not scored |
+| Advanced SEO | 0% | Bonus points only |
+
+### 4.2 Scoring Rules
+
+**Per-check scoring:**
+- ✅ Pass = full points for that check
+- ⚠️ Partial = 50% points (e.g., meta description exists but too long)
+- ❌ Fail = 0 points
+
+**Category score** = (passed checks + partial × 0.5) / total checks × 100
+
+**Overall score** = Σ (category score × category weight)
+
+### 4.3 Critical Fail Cap
+
+If ANY of these critical items fail, the overall score is **capped at 60** regardless of other scores:
+
+| Critical Fail | Why |
+|--------------|-----|
+| No `<title>` on pages | Invisible to search engines |
+| No sitemap | Search engines can't discover pages |
+| robots.txt blocks indexing | Search engines can't crawl |
+| No HTTPS | Google penalizes HTTP sites |
+| All pages have same title | Duplicate content signal |
+| No H1 on pages | Missing primary heading signal |
+| `noindex` on important pages | Actively blocking indexing |
+
+### 4.4 Grade Scale
+
+| Score | Grade | Meaning |
+|:-----:|:-----:|---------|
+| 90-100 | **A** | Excellent — minor tweaks only |
+| 80-89 | **B** | Good — some optimization needed |
+| 70-79 | **C** | Average — significant issues |
+| 60-69 | **D** | Poor — many critical issues |
+| 0-59 | **F** | Failing — fundamental problems |
+
+### 4.5 Score Presentation
+
+```markdown
+## SEO Score: 73/100 (C)
+
+| Category | Score | Weight | Weighted |
+|----------|:-----:|:------:|:--------:|
+| Technical SEO | 85/100 | 15% | 12.8 |
+| On-Page SEO | 70/100 | 15% | 10.5 |
+| GEO | 45/100 | 12% | 5.4 |
+| Keyword Research | 60/100 | 10% | 6.0 |
+| ... | ... | ... | ... |
+| **Total** | | | **73.0** |
+
+⚠️ Critical Fail Cap: None triggered
+```
+
+---
+
+## 5. Report Format
 
 Present findings as:
 
 ```markdown
-## SEO Audit Report
+## SEO Audit Report — [Site Name]
+## Score: [XX]/100 ([Grade])
 
 ### 🔴 Critical (Blocks Indexing/Ranking)
 1. [issue] — [file:line] — [fix]
@@ -596,11 +884,14 @@ Present findings as:
 
 ### ✅ Passing
 - [list of things that are already correct]
+
+### 📊 Score Breakdown
+[Category score table from 4.5]
 ```
 
 ---
 
-## 5. Fix Strategy
+## 6. Fix Strategy
 
 When fixing issues:
 
@@ -644,9 +935,27 @@ When fixing issues:
 
 **Missing landing page** → Create dedicated page targeting the keyword with unique content + proper on-page SEO
 
+**Mixed content (HTTP)** → Replace all `http://` URLs with `https://` in src/href attributes
+
+**Missing HSTS** → Add Strict-Transport-Security header in server/hosting config
+
+**API key exposed** → Move to environment variable, add to .gitignore, rotate the key
+
+**Missing alt/label** → Add descriptive alt text to images, associate labels with form inputs
+
+**Invalid HTML structure** → Fix DOCTYPE, charset order, duplicate tags, deprecated elements
+
+**Client-only SEO content** → Move titles, meta tags, and JSON-LD to server-side rendering
+
+**Missing llms.txt** → Create public/llms.txt with site description, topics, and content types
+
+**Weak AI citation structure** → Add quantified claims, source attribution, self-contained sections
+
+**Low GEO score** → Add entity schema, citation-friendly formatting, llms.txt, semantic markup
+
 ---
 
-## 6. Framework-Specific Notes
+## 7. Framework-Specific Notes
 
 ### Astro
 - Meta tags: Set in layout frontmatter props, passed from page frontmatter
