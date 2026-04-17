@@ -2,7 +2,8 @@
 
 <p align="center">
   <strong>¿Por qué Google no indexa tu sitio ni ChatGPT lo cita?</strong><br>
-  Ejecútalo una vez. Claude encuentra los problemas, arregla el código y te posiciona.
+  Un comando <code>/seo</code>. Claude lee tu código y corrige los problemas directamente.<br>
+  <em>Los buenos productos no deberían perder por detalles técnicos.</em>
 </p>
 
 <p align="center">

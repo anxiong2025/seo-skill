@@ -2,7 +2,8 @@
 
 <p align="center">
   <strong>Why isn't your site ranking on Google — or cited by ChatGPT?</strong><br>
-  Run it once. Claude finds the issues, fixes the code, and gets you ranking.
+  One command <code>/seo</code>. Claude reads your code and fixes the problems directly.<br>
+  <em>Great products shouldn't lose on technical details.</em>
 </p>
 
 <p align="center">
