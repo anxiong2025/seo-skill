@@ -20,7 +20,7 @@ const COLORS = {
   cyan: '\x1b[36m',
 };
 
-const REGISTRY_URL = 'https://raw.githubusercontent.com/anthropic-skills/skills/main/registry.json';
+const REGISTRY_URL = 'https://raw.githubusercontent.com/anxiong2025/seo-skill/main/cli/registry.json';
 
 function log(msg) { console.log(msg); }
 function success(msg) { log(`${COLORS.green}✓${COLORS.reset} ${msg}`); }
@@ -305,13 +305,13 @@ ${COLORS.bold}Sources${COLORS.reset}
   npx skills add seo
 
   ${COLORS.dim}# From GitHub (owner/repo)${COLORS.reset}
-  npx skills add anthropic-skills/seo-skill
+  npx skills add anxiong2025/seo-skill
 
   ${COLORS.dim}# From GitHub URL${COLORS.reset}
-  npx skills add https://github.com/anthropic-skills/seo-skill
+  npx skills add https://github.com/anxiong2025/seo-skill
 
   ${COLORS.dim}# Subdirectory in a monorepo${COLORS.reset}
-  npx skills add anthropic-skills/skills/packages/seo
+  npx skills add anxiong2025/skills/packages/seo
 
 ${COLORS.bold}Examples${COLORS.reset}
 

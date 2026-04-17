@@ -21,7 +21,7 @@ npx skills add seo -g
 ### Or install from GitHub directly
 
 ```bash
-npx skills add anthropic-skills/seo-skill
+npx skills add anxiong2025/seo-skill
 ```
 
 ### Manual installation
@@ -29,7 +29,7 @@ npx skills add anthropic-skills/seo-skill
 If you prefer not to use the CLI:
 
 ```bash
-git clone https://github.com/anthropic-skills/seo-skill.git
+git clone https://github.com/anxiong2025/seo-skill.git
 
 # Project-level (this project only)
 mkdir -p your-project/.claude/skills/seo
@@ -174,13 +174,13 @@ npx skills search <query>     # Search the registry
 npx skills add seo
 
 # GitHub owner/repo
-npx skills add anthropic-skills/seo-skill
+npx skills add anxiong2025/seo-skill
 
 # Full GitHub URL
-npx skills add https://github.com/anthropic-skills/seo-skill
+npx skills add https://github.com/anxiong2025/seo-skill
 
 # Subdirectory in a monorepo
-npx skills add anthropic-skills/skills/packages/seo
+npx skills add anxiong2025/skills/packages/seo
 ```
 
 The CLI auto-detects `SKILL.md` in the repo, copies only skill files (skipping README, LICENSE, examples, etc.), and places them in `.claude/skills/<name>/`.
