@@ -1,7 +1,7 @@
 <h1 align="center">seo-skill</h1>
 
 <p align="center">
-  <em>「一行命令，让 Claude 帮你把 SEO 从头查到尾」</em>
+  <em>「一行命令，让 Claude 帮你把 SEO 从审计到修复全搞定」</em>
 </p>
 
 <p align="center">
@@ -183,4 +183,4 @@ MIT — 随便用，随便改。
 
 ---
 
-<p align="center"><em>一行命令装好，一句话启动审计，剩下的交给 Claude。</em></p>
+<p align="center"><em>一行命令装好，一句话启动，审计 + 修复全自动。</em></p>
