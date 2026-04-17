@@ -6,25 +6,37 @@ Performs systematic checks across technical SEO, on-page optimization, structure
 
 ## Installation
 
-Claude Code skills are just files — no package manager needed. Copy into your `.claude/skills/` directory.
-
-### For a single project
+### One-liner (recommended)
 
 ```bash
-# Clone this repo
+npx claude-skills add seo
+```
+
+Install globally so it's available in all projects:
+
+```bash
+npx claude-skills add seo -g
+```
+
+### Or install from GitHub directly
+
+```bash
+npx claude-skills add anthropic-skills/seo-skill
+```
+
+### Manual installation
+
+If you prefer not to use the CLI:
+
+```bash
 git clone https://github.com/anthropic-skills/seo-skill.git
 
-# Copy into your project
+# Project-level (this project only)
 mkdir -p your-project/.claude/skills/seo
 cp seo-skill/SKILL.md your-project/.claude/skills/seo/
 cp -r seo-skill/references your-project/.claude/skills/seo/
-```
 
-### For all your projects (personal skill)
-
-```bash
-git clone https://github.com/anthropic-skills/seo-skill.git
-
+# Or global (all projects)
 mkdir -p ~/.claude/skills/seo
 cp seo-skill/SKILL.md ~/.claude/skills/seo/
 cp -r seo-skill/references ~/.claude/skills/seo/
@@ -143,13 +155,52 @@ Each example includes the exact file structure you need. See [`examples/README.m
 - HTTPS enforced
 ```
 
+## `claude-skills` CLI
+
+The `cli/` directory contains a standalone package manager for Claude Code skills. Works like `npx shadcn add`.
+
+```bash
+npx claude-skills add <source>       # Install a skill
+npx claude-skills add <source> -g    # Install globally
+npx claude-skills list               # List installed skills
+npx claude-skills remove <name>      # Remove a skill
+npx claude-skills search <query>     # Search the registry
+```
+
+### Sources
+
+```bash
+# Registry shorthand
+npx claude-skills add seo
+
+# GitHub owner/repo
+npx claude-skills add anthropic-skills/seo-skill
+
+# Full GitHub URL
+npx claude-skills add https://github.com/anthropic-skills/seo-skill
+
+# Subdirectory in a monorepo
+npx claude-skills add anthropic-skills/skills/packages/seo
+```
+
+The CLI auto-detects `SKILL.md` in the repo, copies only skill files (skipping README, LICENSE, examples, etc.), and places them in `.claude/skills/<name>/`.
+
+### Registry
+
+`cli/registry.json` maps shorthand names to GitHub repos. PRs welcome to add community skills.
+
 ## Contributing
 
-Issues and PRs welcome. When adding new checks:
+Issues and PRs welcome.
 
+**Adding SEO checks:**
 1. Add the check to the appropriate section in `SKILL.md`
 2. Include: what to check, correct value, common mistakes
 3. If it needs a template, add it to `references/`
+
+**Adding skills to the registry:**
+1. Edit `cli/registry.json`
+2. Add your skill's name, repo, description, and tags
 
 ## License
 

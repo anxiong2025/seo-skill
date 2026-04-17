@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "seo": {
+      "repo": "anthropic-skills/seo-skill",
+      "description": "Comprehensive SEO audit and optimization for any website",
+      "tags": ["seo", "meta", "og", "structured-data", "sitemap"]
+    }
+  }
+}

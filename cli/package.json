@@ -1,0 +1,29 @@
+{
+  "name": "claude-skills",
+  "version": "0.1.0",
+  "description": "Install Claude Code skills from GitHub — like npx shadcn add, but for skills.",
+  "type": "module",
+  "bin": {
+    "claude-skills": "./index.mjs"
+  },
+  "keywords": [
+    "claude",
+    "claude-code",
+    "skills",
+    "agent",
+    "cli"
+  ],
+  "license": "MIT",
+  "author": "Agent Skills Dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anthropic-skills/claude-skills"
+  },
+  "files": [
+    "index.mjs",
+    "registry.json"
+  ],
+  "engines": {
+    "node": ">=18"
+  }
+}
