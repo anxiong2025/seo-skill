@@ -8,7 +8,7 @@ import { createInterface } from 'node:readline';
 const VERSION = '0.1.0';
 const SKILLS_DIR = '.claude/skills';
 const GLOBAL_SKILLS_DIR = join(process.env.HOME || '~', '.claude/skills');
-const TEMP_DIR = join(process.env.TMPDIR || '/tmp', 'claude-skills-install');
+const TEMP_DIR = join(process.env.TMPDIR || '/tmp', 'skills-install');
 
 const COLORS = {
   reset: '\x1b[0m',
@@ -20,7 +20,7 @@ const COLORS = {
   cyan: '\x1b[36m',
 };
 
-const REGISTRY_URL = 'https://raw.githubusercontent.com/anthropic-skills/claude-skills/main/registry.json';
+const REGISTRY_URL = 'https://raw.githubusercontent.com/anthropic-skills/skills/main/registry.json';
 
 function log(msg) { console.log(msg); }
 function success(msg) { log(`${COLORS.green}✓${COLORS.reset} ${msg}`); }
@@ -134,7 +134,7 @@ async function cmdAdd(source, flags) {
     if (!entry) {
       error(`Skill "${parsed.name}" not found in registry.`);
       log(`\n  Try installing from GitHub directly:`);
-      log(`  ${COLORS.cyan}npx claude-skills add owner/repo${COLORS.reset}\n`);
+      log(`  ${COLORS.cyan}npx skills add owner/repo${COLORS.reset}\n`);
       process.exit(1);
     }
     repoUrl = `https://github.com/${entry.repo}.git`;
@@ -233,7 +233,7 @@ async function cmdList() {
 
   if (!found) {
     log('  No skills installed.');
-    log(`\n  Install one: ${COLORS.cyan}npx claude-skills add owner/repo${COLORS.reset}`);
+    log(`\n  Install one: ${COLORS.cyan}npx skills add owner/repo${COLORS.reset}`);
   }
   log('');
 }
@@ -273,53 +273,53 @@ async function cmdSearch(query) {
   if (!results.length) {
     log(`  No skills found for "${query}".`);
     log(`\n  You can install any GitHub repo directly:`);
-    log(`  ${COLORS.cyan}npx claude-skills add owner/repo${COLORS.reset}`);
+    log(`  ${COLORS.cyan}npx skills add owner/repo${COLORS.reset}`);
   } else {
     for (const [name, info] of results) {
       log(`  ${COLORS.bold}${name}${COLORS.reset} — ${info.description}`);
       log(`  ${COLORS.dim}${info.repo}${COLORS.reset}`);
       log('');
     }
-    log(`Install with: ${COLORS.cyan}npx claude-skills add <name>${COLORS.reset}`);
+    log(`Install with: ${COLORS.cyan}npx skills add <name>${COLORS.reset}`);
   }
   log('');
 }
 
 function showHelp() {
   log(`
-${COLORS.bold}claude-skills${COLORS.reset} v${VERSION}
+${COLORS.bold}skills${COLORS.reset} v${VERSION}
 
   Install Claude Code skills from GitHub.
 
 ${COLORS.bold}Usage${COLORS.reset}
 
-  ${COLORS.cyan}npx claude-skills add <source>${COLORS.reset}      Install a skill
-  ${COLORS.cyan}npx claude-skills add <source> -g${COLORS.reset}   Install globally (~/.claude/skills/)
-  ${COLORS.cyan}npx claude-skills list${COLORS.reset}               List installed skills
-  ${COLORS.cyan}npx claude-skills remove <name>${COLORS.reset}      Remove a skill
-  ${COLORS.cyan}npx claude-skills search <query>${COLORS.reset}     Search the registry
+  ${COLORS.cyan}npx skills add <source>${COLORS.reset}      Install a skill
+  ${COLORS.cyan}npx skills add <source> -g${COLORS.reset}   Install globally (~/.claude/skills/)
+  ${COLORS.cyan}npx skills list${COLORS.reset}               List installed skills
+  ${COLORS.cyan}npx skills remove <name>${COLORS.reset}      Remove a skill
+  ${COLORS.cyan}npx skills search <query>${COLORS.reset}     Search the registry
 
 ${COLORS.bold}Sources${COLORS.reset}
 
   ${COLORS.dim}# From registry (shorthand)${COLORS.reset}
-  npx claude-skills add seo
+  npx skills add seo
 
   ${COLORS.dim}# From GitHub (owner/repo)${COLORS.reset}
-  npx claude-skills add anthropic-skills/seo-skill
+  npx skills add anthropic-skills/seo-skill
 
   ${COLORS.dim}# From GitHub URL${COLORS.reset}
-  npx claude-skills add https://github.com/anthropic-skills/seo-skill
+  npx skills add https://github.com/anthropic-skills/seo-skill
 
   ${COLORS.dim}# Subdirectory in a monorepo${COLORS.reset}
-  npx claude-skills add anthropic-skills/skills/packages/seo
+  npx skills add anthropic-skills/skills/packages/seo
 
 ${COLORS.bold}Examples${COLORS.reset}
 
   ${COLORS.dim}# Install SEO skill into current project${COLORS.reset}
-  npx claude-skills add seo
+  npx skills add seo
 
   ${COLORS.dim}# Install globally so it's available in all projects${COLORS.reset}
-  npx claude-skills add seo -g
+  npx skills add seo -g
 
   ${COLORS.dim}# Then use in Claude Code${COLORS.reset}
   /seo
@@ -334,7 +334,7 @@ switch (command) {
   case 'add':
   case 'install':
   case 'i':
-    if (!positional[0]) { error('Missing source. Usage: npx claude-skills add <source>'); process.exit(1); }
+    if (!positional[0]) { error('Missing source. Usage: npx skills add <source>'); process.exit(1); }
     await cmdAdd(positional[0], flags);
     break;
   case 'list':
@@ -344,12 +344,12 @@ switch (command) {
   case 'remove':
   case 'rm':
   case 'uninstall':
-    if (!positional[0]) { error('Missing name. Usage: npx claude-skills remove <name>'); process.exit(1); }
+    if (!positional[0]) { error('Missing name. Usage: npx skills remove <name>'); process.exit(1); }
     await cmdRemove(positional[0]);
     break;
   case 'search':
   case 'find':
-    if (!positional[0]) { error('Missing query. Usage: npx claude-skills search <query>'); process.exit(1); }
+    if (!positional[0]) { error('Missing query. Usage: npx skills search <query>'); process.exit(1); }
     await cmdSearch(positional[0]);
     break;
   case '--help':

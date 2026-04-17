@@ -9,19 +9,19 @@ Performs systematic checks across technical SEO, on-page optimization, structure
 ### One-liner (recommended)
 
 ```bash
-npx claude-skills add seo
+npx skills add seo
 ```
 
 Install globally so it's available in all projects:
 
 ```bash
-npx claude-skills add seo -g
+npx skills add seo -g
 ```
 
 ### Or install from GitHub directly
 
 ```bash
-npx claude-skills add anthropic-skills/seo-skill
+npx skills add anthropic-skills/seo-skill
 ```
 
 ### Manual installation
@@ -155,32 +155,32 @@ Each example includes the exact file structure you need. See [`examples/README.m
 - HTTPS enforced
 ```
 
-## `claude-skills` CLI
+## `skills` CLI
 
 The `cli/` directory contains a standalone package manager for Claude Code skills. Works like `npx shadcn add`.
 
 ```bash
-npx claude-skills add <source>       # Install a skill
-npx claude-skills add <source> -g    # Install globally
-npx claude-skills list               # List installed skills
-npx claude-skills remove <name>      # Remove a skill
-npx claude-skills search <query>     # Search the registry
+npx skills add <source>       # Install a skill
+npx skills add <source> -g    # Install globally
+npx skills list               # List installed skills
+npx skills remove <name>      # Remove a skill
+npx skills search <query>     # Search the registry
 ```
 
 ### Sources
 
 ```bash
 # Registry shorthand
-npx claude-skills add seo
+npx skills add seo
 
 # GitHub owner/repo
-npx claude-skills add anthropic-skills/seo-skill
+npx skills add anthropic-skills/seo-skill
 
 # Full GitHub URL
-npx claude-skills add https://github.com/anthropic-skills/seo-skill
+npx skills add https://github.com/anthropic-skills/seo-skill
 
 # Subdirectory in a monorepo
-npx claude-skills add anthropic-skills/skills/packages/seo
+npx skills add anthropic-skills/skills/packages/seo
 ```
 
 The CLI auto-detects `SKILL.md` in the repo, copies only skill files (skipping README, LICENSE, examples, etc.), and places them in `.claude/skills/<name>/`.

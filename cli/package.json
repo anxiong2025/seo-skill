@@ -1,10 +1,10 @@
 {
-  "name": "claude-skills",
+  "name": "skills",
   "version": "0.1.0",
-  "description": "Install Claude Code skills from GitHub — like npx shadcn add, but for skills.",
+  "description": "Install Claude Code skills from GitHub — npx skills add owner/repo",
   "type": "module",
   "bin": {
-    "claude-skills": "./index.mjs"
+    "skills": "./index.mjs"
   },
   "keywords": [
     "claude",
