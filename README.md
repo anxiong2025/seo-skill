@@ -1,7 +1,7 @@
 <h1 align="center">SEO专家.skill</h1>
 
 <blockquote align="center">
-  「一行命令，让 Claude 帮你把 SEO 从审计到修复全搞定」
+  「让你的网站被搜索引擎看见，被用户找到，被 AI 引用」
 </blockquote>
 
 <p align="center">
@@ -13,14 +13,15 @@
 <br>
 
 <p align="center">
-  <strong>把 SEO 专家的完整知识体系变成 Claude Code 的 Skill。</strong>
+  <strong>搜索排名上不去？流量涨不动？社交分享没预览？</strong><br>
+  <strong>一个 Skill，把 SEO 专家的完整知识体系交给 Claude。</strong>
 </p>
 
 <p align="center">
-  SEO 不难，难的是记住所有该检查的东西。<br>
-  这个 Skill 把技术 SEO、结构化数据、OG 社交卡片、Core Web Vitals、国际化、AI 爬虫优化<br>
-  ——9 大类 50+ 项检查——全部装进一个 SKILL.md<br>
-  让 Claude 像一个资深 SEO 顾问一样审计你的网站，然后直接帮你修。
+  SEO 决定了用户能不能找到你。<br>
+  技术 SEO、结构化数据、OG 社交卡片、Core Web Vitals、国际化、AI 爬虫优化<br>
+  ——9 大类 50+ 项检查，覆盖从 Google 排名到 ChatGPT 引用的每一个细节。<br>
+  不只是告诉你哪里有问题，而是直接帮你修好，让流量真正涨起来。
 </p>
 
 <p align="center">
@@ -89,7 +90,7 @@ Claude    ❯ ✓ 创建 HTML 模板 → Puppeteer 截图 → public/og-default.
             1200×630px, 370KB, 已配置到所有页面的 og:image
 ```
 
-> 这不是在列清单让你自己去查。是 Claude 直接帮你查完、告诉你哪里有问题、然后帮你修。
+> 不是给你一份 checklist 让你自己搞。是 Claude 直接帮你诊断问题、修复代码、提升排名。
 
 <br>
 
@@ -188,11 +189,13 @@ seo-skill/
 
 ## 为什么做这个
 
-SEO 的知识不少，但大部分都是零散的——这篇博客讲 meta 标签，那个教程讲结构化数据，另一个工具查 Core Web Vitals。
+你写了很好的内容，但搜索引擎不知道。你做了很好的产品，但用户找不到你。
 
-每次做新项目都要重新想一遍：OG 图尺寸多大？description 多长会被截断？JSON-LD 的 Article 和 LearningResource 该用哪个？hreflang 的 x-default 放了没有？
+SEO 不是可选项——它是你的内容和用户之间的桥梁。做好了，自然流量持续增长，获客成本趋近于零。做不好，再好的内容也只是自娱自乐。
 
-这个 Skill 把所有这些知识打包成一次审计。Claude 帮你查，帮你修，你只需要说一句 `/seo`。
+问题是：SEO 的知识太零散了。meta 标签、结构化数据、Core Web Vitals、AI 爬虫适配……每个都有讲究，每个都容易遗漏。
+
+这个 Skill 把资深 SEO 专家的完整知识体系交给 Claude。一句 `/seo`，从诊断到修复，让你的网站真正被看见。
 
 > 不用装任何 npm 包，不用配置任何东西。一个 SKILL.md 文件，就是一个 SEO 专家。
 
@@ -212,4 +215,4 @@ MIT — 随便用，随便改。
 
 ---
 
-<p align="center"><em>一行命令装好，一句话启动，审计 + 修复全自动。</em></p>
+<p align="center"><em>让每一个好产品都能被搜索引擎看见，被用户找到。</em></p>
