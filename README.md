@@ -6,18 +6,47 @@ Performs systematic checks across technical SEO, on-page optimization, structure
 
 ## Installation
 
-Copy the skill into your project's `.claude/skills/` directory:
+Claude Code skills are just files — no package manager needed. Copy into your `.claude/skills/` directory.
+
+### For a single project
 
 ```bash
-# Option 1: Clone and copy
-git clone https://github.com/your-username/seo-skill.git
-cp -r seo-skill/SKILL.md your-project/.claude/skills/seo/SKILL.md
-cp -r seo-skill/references your-project/.claude/skills/seo/references
+# Clone this repo
+git clone https://github.com/anthropic-skills/seo-skill.git
 
-# Option 2: Manual setup
+# Copy into your project
 mkdir -p your-project/.claude/skills/seo
-# Copy SKILL.md and references/ into that directory
+cp seo-skill/SKILL.md your-project/.claude/skills/seo/
+cp -r seo-skill/references your-project/.claude/skills/seo/
 ```
+
+### For all your projects (personal skill)
+
+```bash
+git clone https://github.com/anthropic-skills/seo-skill.git
+
+mkdir -p ~/.claude/skills/seo
+cp seo-skill/SKILL.md ~/.claude/skills/seo/
+cp -r seo-skill/references ~/.claude/skills/seo/
+```
+
+### Directory structure after installation
+
+```
+your-project/
+├── .claude/
+│   └── skills/
+│       └── seo/
+│           ├── SKILL.md              ← core skill
+│           └── references/
+│               ├── schema-templates.md
+│               ├── meta-tag-spec.md
+│               └── og-image-guide.md
+├── src/
+│   ...
+```
+
+Changes take effect immediately — no restart needed.
 
 ## Usage
 
@@ -74,6 +103,17 @@ Or describe what you need:
 | SvelteKit | ✅ | svelte:head patterns |
 | Gatsby | ✅ | gatsby-plugin-react-helmet |
 | Static HTML | ✅ | Direct `<head>` editing |
+
+## Examples
+
+The `examples/` directory contains complete, copy-paste-ready implementations:
+
+| Example | Framework | What It Demonstrates |
+|---------|-----------|---------------------|
+| [`astro-site/`](examples/astro-site/) | Astro | Layout-based meta tags, JSON-LD (Article, WebSite, Organization, Breadcrumb), sitemap plugin, robots.txt, frontmatter-driven SEO |
+| [`nextjs-site/`](examples/nextjs-site/) | Next.js App Router | Metadata API with title template, `generateMetadata()` for dynamic pages, programmatic sitemap.ts & robots.ts, Article JSON-LD |
+
+Each example includes the exact file structure you need. See [`examples/README.md`](examples/README.md) for step-by-step usage.
 
 ## Reference Files
 

@@ -1,0 +1,156 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+  lang?: 'zh-CN' | 'en';
+  ogImage?: string;
+  type?: 'website' | 'article';
+  datePublished?: string;
+  dateModified?: string;
+}
+
+const {
+  title = 'My Blog',
+  description = 'A personal blog about web development.',
+  lang = 'en',
+  ogImage = 'https://my-blog.com/og-default.png',
+  type = 'website',
+  datePublished,
+  dateModified,
+} = Astro.props;
+
+const pageTitle = title.includes('My Blog') ? title : `${title} - My Blog`;
+const canonicalUrl = `https://my-blog.com${Astro.url.pathname}`;
+const ogLocale = lang === 'zh-CN' ? 'zh_CN' : 'en_US';
+
+const jsonLd: Record<string, any>[] = [];
+
+if (type === 'article') {
+  jsonLd.push({
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": pageTitle,
+    "description": description,
+    "inLanguage": lang,
+    "url": canonicalUrl,
+    ...(datePublished && { "datePublished": datePublished }),
+    ...(dateModified && { "dateModified": dateModified }),
+    "author": {
+      "@type": "Person",
+      "name": "Your Name",
+      "url": "https://my-blog.com/about"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "My Blog",
+      "url": "https://my-blog.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://my-blog.com/og-default.png"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": canonicalUrl
+    }
+  });
+} else {
+  jsonLd.push({
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "My Blog",
+    "url": "https://my-blog.com",
+    "description": description,
+    "inLanguage": lang,
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://my-blog.com/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  });
+}
+
+jsonLd.push({
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "My Blog",
+  "url": "https://my-blog.com",
+  "logo": "https://my-blog.com/og-default.png",
+  "sameAs": [
+    "https://github.com/your-username",
+    "https://twitter.com/your-handle"
+  ]
+});
+
+const pathSegments = Astro.url.pathname.split('/').filter(Boolean);
+const breadcrumbItems = [
+  { name: 'Home', url: 'https://my-blog.com/' }
+];
+let currentPath = '';
+for (const segment of pathSegments) {
+  currentPath += `/${segment}`;
+  breadcrumbItems.push({
+    name: segment.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
+    url: `https://my-blog.com${currentPath}/`
+  });
+}
+const breadcrumbLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": breadcrumbItems.map((item, i) => ({
+    "@type": "ListItem",
+    "position": i + 1,
+    "name": item.name,
+    "item": item.url
+  }))
+};
+---
+
+<!DOCTYPE html>
+<html lang={lang}>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content={description} />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="author" content="Your Name" />
+  <link rel="canonical" href={canonicalUrl} />
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <title>{pageTitle}</title>
+
+  <!-- Open Graph -->
+  <meta property="og:type" content={type === 'article' ? 'article' : 'website'} />
+  <meta property="og:title" content={pageTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonicalUrl} />
+  <meta property="og:image" content={ogImage} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content={ogLocale} />
+  <meta property="og:site_name" content="My Blog" />
+  {type === 'article' && datePublished && (
+    <meta property="article:published_time" content={datePublished} />
+  )}
+  {type === 'article' && dateModified && (
+    <meta property="article:modified_time" content={dateModified} />
+  )}
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={pageTitle} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImage} />
+
+  <!-- JSON-LD -->
+  {jsonLd.map(item => (
+    <script type="application/ld+json" set:html={JSON.stringify(item)} />
+  ))}
+  {pathSegments.length > 0 && (
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)} />
+  )}
+</head>
+<body>
+  <slot />
+</body>
+</html>
