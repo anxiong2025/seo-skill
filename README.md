@@ -155,52 +155,13 @@ Each example includes the exact file structure you need. See [`examples/README.m
 - HTTPS enforced
 ```
 
-## `skills` CLI
-
-The `cli/` directory contains a standalone package manager for Claude Code skills. Works like `npx shadcn add`.
-
-```bash
-npx skills add <source>       # Install a skill
-npx skills add <source> -g    # Install globally
-npx skills list               # List installed skills
-npx skills remove <name>      # Remove a skill
-npx skills search <query>     # Search the registry
-```
-
-### Sources
-
-```bash
-# Registry shorthand
-npx skills add seo
-
-# GitHub owner/repo
-npx skills add anxiong2025/seo-skill
-
-# Full GitHub URL
-npx skills add https://github.com/anxiong2025/seo-skill
-
-# Subdirectory in a monorepo
-npx skills add anxiong2025/skills/packages/seo
-```
-
-The CLI auto-detects `SKILL.md` in the repo, copies only skill files (skipping README, LICENSE, examples, etc.), and places them in `.claude/skills/<name>/`.
-
-### Registry
-
-`cli/registry.json` maps shorthand names to GitHub repos. PRs welcome to add community skills.
-
 ## Contributing
 
-Issues and PRs welcome.
+Issues and PRs welcome. When adding new checks:
 
-**Adding SEO checks:**
 1. Add the check to the appropriate section in `SKILL.md`
 2. Include: what to check, correct value, common mistakes
 3. If it needs a template, add it to `references/`
-
-**Adding skills to the registry:**
-1. Edit `cli/registry.json`
-2. Add your skill's name, repo, description, and tags
 
 ## License
 
