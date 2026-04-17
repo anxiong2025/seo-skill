@@ -1,17 +1,27 @@
-# seo-skill
+<h1 align="center">seo-skill</h1>
 
-「一行命令，让 Claude 帮你把 SEO 从头查到尾」
+<p align="center">
+  <em>「一行命令，让 Claude 帮你把 SEO 从头查到尾」</em>
+</p>
 
-License: MIT Claude Code Skills
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
+  <a href="https://claude.ai"><img src="https://img.shields.io/badge/Claude_Code-Skill-blueviolet.svg" alt="Claude Code"></a>
+</p>
+
+<p align="center"><strong>把 SEO 专家的完整知识体系变成 Claude Code 的 Skill。</strong></p>
+
+<p align="center">
+  SEO 不难，难的是记住所有该检查的东西。<br>
+  这个 Skill 把技术 SEO、结构化数据、OG 社交卡片、Core Web Vitals、国际化、AI 爬虫优化<br>
+  ——9 大类 50+ 项检查——全部装进一个 SKILL.md，让 Claude 像一个资深 SEO 顾问一样审计你的网站。
+</p>
+
+<p align="center">
+  <a href="#效果示例">看效果</a> · <a href="#安装">安装</a> · <a href="#检查了什么">检查了什么</a> · <a href="#仓库结构">仓库结构</a>
+</p>
 
 ---
-
-把 SEO 专家的完整知识体系变成 Claude Code 的 Skill。
-
-SEO 不难，难的是记住所有该检查的东西。
-这个 Skill 把技术 SEO、结构化数据、OG 社交卡片、Core Web Vitals、国际化、AI 爬虫优化——9 大类 50+ 项检查——全部装进一个 SKILL.md，让 Claude 像一个资深 SEO 顾问一样审计你的网站。
-
-[看效果](#效果示例) · [安装](#安装) · [检查了什么](#检查了什么) · [仓库结构](#仓库结构)
 
 ## 效果示例
 
@@ -125,7 +135,7 @@ Skill 内置了完整的参考文档，Claude 审计时会自动调用：
 
 ## 使用示例
 
-`examples/` 目录包含两个完整的项目示例，调研过程全透明：
+`examples/` 目录包含两个完整的项目示例：
 
 | 示例 | 框架 | 演示内容 |
 |------|------|---------|
@@ -173,4 +183,4 @@ MIT — 随便用，随便改。
 
 ---
 
-*一行命令装好，一句话启动审计，剩下的交给 Claude。*
+<p align="center"><em>一行命令装好，一句话启动审计，剩下的交给 Claude。</em></p>
