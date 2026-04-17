@@ -145,7 +145,7 @@ npx skills add anxiong2025/seo-skill
 
 | 类别 | 检查项 | 级别 |
 |:------|:--------|:------:|
-| **基础设置** | Google Search Console、Analytics、Bing Webmaster、收录检查、站点地图提交 | 🔴 |
+| **基础设置** | GA4 代码检查、Search Console 验证文件、Bing 验证、noindex 检查、收录控制 | 🔴 |
 | **技术 SEO** | robots.txt、sitemap、canonical、HTTPS、404/重定向链、重复内容、移动端适配、导航菜单 | 🔴 |
 | **On-Page SEO** | title（50-60字符）、description（120-155字符）、H1 层级、图片 alt、内链、URL 结构 | 🔴 |
 | **关键词研究** | 种子词扩展、长尾词挖掘、搜索意图分类、页面关键词对齐、关键词蚕食检测、内容缺口分析 | 🟠 |
@@ -153,13 +153,13 @@ npx skills add anxiong2025/seo-skill
 | **结构化数据** | Article、Organization、BreadcrumbList、Course、FAQ、HowTo、Product 等 12 种 JSON-LD | 🟠 |
 | **OG / 社交** | og:image（1200×630）、Twitter Card、社交预览验证 | 🟠 |
 | **链接建设** | 内链架构、主题集群、锚文本优化、站外策略（客座文章、新闻提及、品牌链接） | 🟡 |
-| **本地 SEO** | NAP 一致性、Google 商家资料、目录列出、联系页面、城市落地页 | 🟡 |
-| **电商 SEO** | 产品描述优化、客户评价、产品 Schema、分类页、Merchant Center | 🟡 |
+| **本地 SEO** | NAP 一致性、LocalBusiness JSON-LD、联系页面、Google Maps 嵌入、城市落地页 | 🟡 |
+| **电商 SEO** | 产品描述优化、Product/AggregateRating Schema、分类页内容、分面导航、缺货处理 | 🟡 |
 | **Favicon** | favicon.ico、favicon.svg、apple-touch-icon | 🟡 |
 | **性能 SEO** | LCP < 2.5s、INP < 200ms、CLS < 0.1、字体加载、图片优化 | 🟡 |
-| **内容 SEO** | E-E-A-T 信号、内容策略、落地页、内容多样化、AI 辅助创作 | 🟡 |
+| **内容 SEO** | E-E-A-T 信号、内容结构格式化、FAQ、目录跳转、落地页优化 | 🟡 |
 | **国际化** | hreflang 双向链接、x-default、lang 属性、ISO 语言代码 | 🟡 |
-| **高级 SEO** | 零点击搜索优化、精选摘要、SEO 监控报告、用户体验信号 | 🟢 |
+| **高级 SEO** | 零点击搜索优化、精选摘要格式、内容时效性、用户体验代码检查 | 🟢 |
 | **GEO（AI 优化）** | GPTBot/ClaudeBot 爬虫放行、引用友好结构、语义化标记 | 🟢 |
 
 <br>

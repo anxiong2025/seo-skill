@@ -75,33 +75,33 @@ public/favicon.*, public/og-*.*, public/apple-touch-icon.*
 
 ## 3. Audit Checklist
 
-### 3.0 SEO Foundation Setup (Critical)
+### 3.0 SEO Foundation — Indexing & Analytics Code (Critical)
 
-Before auditing, ensure the basic SEO infrastructure is in place.
+Ensure the codebase has the infrastructure for search engines to discover and track the site.
 
-#### Search Console & Analytics
-- [ ] Google Search Console account created and site verified
-- [ ] Bing Webmaster Tools account created and site verified
-- [ ] Google Analytics (GA4) installed and collecting data
-- [ ] Analytics tracking code is properly placed (in `<head>`)
+#### Analytics & Tracking Code
+- [ ] Google Analytics (GA4) `gtag.js` or `<GoogleAnalytics>` snippet present in `<head>`
+- [ ] GA measurement ID is set via environment variable (not hardcoded)
+- [ ] Google Search Console HTML verification tag or file present (e.g., `public/googleXXXX.html`)
+- [ ] Bing Webmaster verification meta tag or `BingSiteAuth.xml` present
 
-#### Site Indexing
-- [ ] Site is indexed by Google (check: `site:yourdomain.com` in Google)
-- [ ] No password protection blocking crawlers
-- [ ] No `noindex` meta tags on pages that should be indexed
-- [ ] Sitemap submitted to Google Search Console and Bing Webmaster Tools
-
-#### SEO Tools Setup
-- [ ] At least one keyword research tool configured (Google Keyword Planner, or paid: Ahrefs/Semrush/Moz)
-- [ ] Google PageSpeed Insights bookmarked for performance checks
-- [ ] Google Rich Results Test bookmarked for schema validation
-
-**How Claude helps with setup:**
+**How to check:**
 ```
-1. Check if site is indexed: WebFetch "site:domain.com" on Google
-2. Verify robots.txt isn't blocking indexing
-3. Generate sitemap submission instructions for the framework
-4. Provide step-by-step Search Console verification guide
+Grep for "gtag", "GA-", "G-", "google-site-verification", "msvalidate" in layouts and <head>
+Check public/ for verification files
+```
+
+#### Indexing Controls
+- [ ] No accidental `noindex` meta tags on pages that should be indexed
+- [ ] No password protection or auth gates blocking crawlers
+- [ ] Sitemap plugin/generation is configured (framework-specific)
+- [ ] `robots.txt` does not block important pages (checked in 3.1)
+
+**How to check:**
+```
+Grep for "noindex" across all pages and layouts
+Check framework config for sitemap integration
+Verify robots.txt allows indexing of key paths
 ```
 
 ---
@@ -311,7 +311,7 @@ Check which schemas are appropriate and whether they're correctly implemented.
 - [ ] Sources cited for claims and statistics
 - [ ] Publication date visible (`datePublished`)
 - [ ] Last updated date visible (`dateModified`)
-- [ ] Consider inviting third-party experts or influencers to contribute content for credibility
+- [ ] Author schema (Person) includes credentials, social links, and bio page URL
 
 #### Content Quality
 - [ ] No thin pages (< 300 words for informational content)
@@ -319,13 +319,12 @@ Check which schemas are appropriate and whether they're correctly implemented.
 - [ ] Readable paragraph length (2-4 sentences)
 - [ ] Subheadings every 200-300 words
 
-#### Content Strategy
-- [ ] Content marketing plan exists (topics, formats, publishing cadence)
-- [ ] Content addresses audience's questions and pain points
-- [ ] Mix of content formats: text, images, video, infographics, tables
-- [ ] Table of contents with jump links for long-form content (helps Featured Snippets)
-- [ ] FAQ sections included where appropriate
-- [ ] AI-assisted content is reviewed and enhanced with unique insights (not published raw)
+#### Content Structure & Formatting
+- [ ] Long-form pages (>1500 words) have a table of contents with jump links
+- [ ] Content uses mix of formats: paragraphs, lists, tables, images, code blocks
+- [ ] FAQ sections included where appropriate (with FAQPage JSON-LD)
+- [ ] Subheadings use descriptive text containing secondary keywords
+- [ ] Content answers the primary question within the first 100 words
 
 #### Landing Pages
 - [ ] High-value keywords have dedicated landing pages
@@ -451,12 +450,11 @@ For each page, verify keyword placement:
 - [ ] Suggest link-worthy content types for the site's niche
 - [ ] Check for broken outbound links (links to dead external pages)
 
-#### Off-Site Link Building Strategy
-- [ ] Identify guest post opportunities in the niche (search: "[niche] + write for us")
-- [ ] Look for unlinked brand mentions → request link addition
-- [ ] Identify PR/news opportunities for the brand
-- [ ] Consider directory listings (industry-specific, Google Business, Bing Places)
-- [ ] Build relationships with relevant bloggers and influencers
+#### Off-Site Link Opportunities (Research)
+- [ ] Use WebFetch to find guest post targets: search "[niche] + write for us" or "[niche] + contribute"
+- [ ] Use WebFetch to find unlinked brand mentions (search brand name, check if pages link back)
+- [ ] List linkable assets the site already has (tools, guides, original data, templates)
+- [ ] Suggest new linkable asset ideas based on content gap analysis
 
 #### Anchor Text Quality
 - [ ] Internal link anchors are descriptive (not "click here" or "read more")
@@ -467,81 +465,94 @@ For each page, verify keyword placement:
 
 ### 3.12 Local SEO (If Applicable)
 
-#### Google Business Profile Signals
-- [ ] NAP (Name, Address, Phone) consistent across site
-- [ ] **LocalBusiness** JSON-LD with address, geo, openingHours
-- [ ] Embed Google Maps on contact/location page
-- [ ] Local keywords in title/description (city, region, neighborhood)
+#### NAP & Contact Page (Code-Level)
+- [ ] "Contact Us" or "About" page exists with NAP (Name, Address, Phone)
+- [ ] NAP information is consistent across all pages (footer, contact, about)
+- [ ] Business hours displayed and structured
+- [ ] Google Maps embed present on contact/location page (check for `<iframe>` with maps.google)
 
-#### Contact Page
-- [ ] "Contact Us" page exists with complete NAP information
-- [ ] Business hours clearly displayed and kept up to date
-- [ ] Contact form is functional
-- [ ] Physical address matches Google Business Profile exactly
+#### LocalBusiness Structured Data
+- [ ] **LocalBusiness** JSON-LD with: name, address, telephone, geo (lat/lng), openingHoursSpecification
+- [ ] `areaServed` and `serviceArea` fields populated
+- [ ] Local keywords included in title/description (city, region, neighborhood)
 
-#### Directory Listings
-- [ ] Listed on Google Business Profile
-- [ ] Listed on Bing Places
-- [ ] Listed on Apple Maps
-- [ ] Listed on relevant industry-specific directories
-- [ ] NAP consistent across all directory listings
-
-#### Local Content
+#### Multi-Location Pages
 - [ ] Location-specific landing pages for each city/region (if multi-location)
 - [ ] Each location page has unique content (not just address swap)
-- [ ] Local schema markup: `areaServed`, `serviceArea`
-- [ ] Customer reviews/testimonials with location signals
+- [ ] Each location page has its own LocalBusiness JSON-LD
+- [ ] Internal links between location pages and main site
+
+#### Local SEO Checklist for User (Cannot Be Automated)
+> Claude will remind the user to:
+> - Create/verify Google Business Profile
+> - List on Bing Places and Apple Maps
+> - Ensure NAP matches external directory listings
 
 ---
 
 ### 3.13 E-Commerce SEO (If Applicable)
 
-#### Product Pages
-- [ ] Every product has a unique, keyword-rich description (not manufacturer copy)
-- [ ] Product descriptions include long-tail keyword variations
-- [ ] Product descriptions use bullet points and scannable formatting
-- [ ] High-quality product images with descriptive alt text
-- [ ] Product videos or GIFs where possible
-- [ ] **Product** JSON-LD with name, image, description, brand, offers, price, availability
+#### Product Page Content
+- [ ] Every product has a unique, keyword-rich description (not manufacturer copy-paste)
+- [ ] Product descriptions include long-tail keyword variations naturally
+- [ ] Descriptions use bullet points, highlights, and scannable formatting
+- [ ] High-quality product images with descriptive `alt` text
+- [ ] **Product** JSON-LD with name, image, description, brand, offers (price, priceCurrency, availability)
 
-#### Customer Reviews
-- [ ] Review collection system in place (automated post-purchase emails)
-- [ ] Reviews displayed on product pages
-- [ ] **AggregateRating** schema added to product pages
-- [ ] Review stars visible in search results via schema markup
+#### Review & Rating Schema
+- [ ] **AggregateRating** schema added to product pages (if reviews exist)
+- [ ] Review display component exists on product pages
+- [ ] Rating data in JSON-LD matches visible review content
+
+**How to check:**
+```
+Grep for "Product" and "AggregateRating" in JSON-LD scripts
+Check product page templates for review rendering components
+```
 
 #### Collection/Category Pages
-- [ ] Each collection has unique descriptive content (not just a product grid)
+- [ ] Each collection page has unique descriptive content (not just a product grid)
 - [ ] Collection pages target commercial keywords ("best X", "top X", "X for [audience]")
 - [ ] Collection pages include internal links to individual product pages
+- [ ] Collection descriptions contain relevant keywords naturally
 
 #### E-Commerce Technical
-- [ ] Product feed submitted to Google Merchant Center (if applicable)
-- [ ] Out-of-stock products handled properly (keep page, show status, suggest alternatives)
-- [ ] Pagination uses `rel="next"` and `rel="prev"` or infinite scroll with crawlable links
-- [ ] Faceted navigation doesn't create duplicate/thin pages (use canonical or noindex)
+- [ ] Out-of-stock products handled properly (keep page live, show status, suggest alternatives — not 404)
+- [ ] Pagination uses `rel="next"` / `rel="prev"` or infinite scroll with crawlable links
+- [ ] Faceted navigation doesn't create duplicate/thin pages (use canonical or noindex on filter URLs)
+- [ ] Product URL structure is clean: `/products/product-name` not `/products?id=123`
 
 ---
 
 ### 3.14 Advanced SEO (Low)
 
 #### Zero-Click Search Optimization
-- [ ] Content formatted to win Featured Snippets (direct answer in 40-60 words after H2)
-- [ ] FAQ sections formatted for "People Also Ask" boxes
-- [ ] Tables and lists used for data that could appear as rich snippets
-- [ ] Content structured for AI Overviews (clear, authoritative, well-cited)
+- [ ] Content formatted to win Featured Snippets: direct answer in 40-60 words immediately after H2 heading
+- [ ] FAQ sections use proper Q&A format: `<h3>` question → `<p>` answer (+ FAQPage JSON-LD)
+- [ ] Comparison data presented in `<table>` format (table snippets)
+- [ ] Numbered/bulleted lists used for "how to" and "best of" content (list snippets)
+- [ ] Content structured for AI Overviews: clear claims, cited sources, authoritative tone
 
-#### SEO Monitoring & Reporting
-- [ ] Google Search Console checked regularly for crawl errors
-- [ ] Key metrics tracked: organic traffic, keyword rankings, search visibility, CTR
-- [ ] Content freshness maintained (update dates, new data, current year references)
-- [ ] Declining pages identified and refreshed
+**How to check:**
+```
+For each target keyword, use WebFetch to check Google SERP:
+  - Does a Featured Snippet exist? What format? (paragraph/list/table)
+  - Does "People Also Ask" appear? What questions?
+  - Does AI Overview appear? What sources are cited?
+Then verify our content matches the winning format.
+```
 
-#### User Experience Signals
-- [ ] Low bounce rate (content matches search intent)
-- [ ] Good dwell time (content is engaging and comprehensive)
-- [ ] Clear calls-to-action on every page
-- [ ] No intrusive interstitials or popups blocking content
+#### Content Freshness
+- [ ] `dateModified` in JSON-LD and visible on page reflects actual update date
+- [ ] Year references are current (e.g., "2026" not "2024")
+- [ ] Outdated statistics or claims are refreshed with current data
+- [ ] Seasonal or time-sensitive content has been reviewed recently
+
+#### User Experience (Code-Level)
+- [ ] Clear calls-to-action on every landing page
+- [ ] No intrusive interstitials or popups blocking main content on load
+- [ ] Above-fold content loads without JavaScript dependency (SSR/SSG)
+- [ ] Page content matches the promise of its title and description (intent alignment)
 
 ---
 
