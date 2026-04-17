@@ -132,8 +132,29 @@ Claude    ❯ ## 关键词研究报告
 
 ## 安装
 
+### 方式一：npx skills（通用 agent 工具）
+
 ```bash
 npx skills add anxiong2025/seo-skill
+```
+
+> 安装后文件在 `.agents/skills/seo/`，支持多种 AI 编程工具（Cursor、Cline 等）。
+> 如果你只用 Claude Code 且 `/seo` 无法识别，请用方式二。
+
+### 方式二：手动安装（Claude Code 推荐）
+
+```bash
+# 在你的项目根目录执行
+mkdir -p .claude/skills/seo
+curl -sL https://raw.githubusercontent.com/anxiong2025/seo-skill/main/SKILL.md \
+  -o .claude/skills/seo/SKILL.md
+
+# 可选：下载参考文档（关键词研究、竞品分析、Schema 模板等）
+mkdir -p .claude/skills/seo/references
+for f in keyword-research-guide competitor-analysis-guide schema-templates meta-tag-spec og-image-guide; do
+  curl -sL "https://raw.githubusercontent.com/anxiong2025/seo-skill/main/references/${f}.md" \
+    -o ".claude/skills/seo/references/${f}.md"
+done
 ```
 
 ## 使用
