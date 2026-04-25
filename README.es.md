@@ -106,9 +106,14 @@ curl -sL https://raw.githubusercontent.com/anxiong2025/seo-skill/main/SKILL.md \
 ```
 
 ```bash
-# Opcional: descargar documentación de referencia
+# Opcional: descargar documentación de referencia (manuales profundos, keyword research, plantillas Schema…)
 mkdir -p .claude/skills/seo/references
-for f in keyword-research-guide competitor-analysis-guide schema-templates meta-tag-spec og-image-guide; do
+for f in \
+  audit-modes-guide core-web-vitals-guide common-seo-mistakes \
+  geo-llm-optimization ecommerce-seo saas-seo docs-seo going-global-seo \
+  keyword-research-guide competitor-analysis-guide \
+  meta-tag-spec og-image-guide \
+  schema-templates schema-article schema-product schema-faq-howto schema-organization; do
   curl -sL "https://raw.githubusercontent.com/anxiong2025/seo-skill/main/references/${f}.md" \
     -o ".claude/skills/seo/references/${f}.md"
 done
@@ -238,11 +243,23 @@ Descarga opcional al instalar — Claude la usa automáticamente durante las aud
 
 | Archivo | Contenido |
 |:------|:------|
+| `audit-modes-guide.md` | Los tres modos de auditoría + configuración GSC/GA4 + herramientas sin login |
+| `core-web-vitals-guide.md` | Diagnóstico profundo de CWV: asesinos de INP, presupuesto de scripts de terceros, campo vs laboratorio |
+| `common-seo-mistakes.md` | Escaneo rápido de los 15 errores más comunes (canibalización, cadenas de redirecciones, noindex…) |
+| `geo-llm-optimization.md` | GEO en profundidad: llms.txt, citación multi-motor, zero-click, mitigación de alucinaciones |
+| `ecommerce-seo.md` | E-commerce: canonicalización de variantes, Merchant Center, calendario estacional, marketplaces |
+| `saas-seo.md` | SaaS: páginas de feature, vs/alternatives/migrate, árbol de decisión SSR de pricing |
+| `docs-seo.md` | Documentación técnica: gestión de versiones, referencias de API, llms.txt, dedup de README |
+| `going-global-seo.md` | Salida al extranjero: estrategia de dominio, E-E-A-T occidental, profundidad de localización |
 | `keyword-research-guide.md` | Flujo completo de investigación de palabras clave |
 | `competitor-analysis-guide.md` | Análisis de competidores: comparación de páginas, características SERP |
-| `schema-templates.md` | 12 plantillas JSON-LD listas para usar |
 | `meta-tag-spec.md` | Especificación de meta tags: límites de longitud, formato, errores comunes |
 | `og-image-guide.md` | Generación de imagen OG: 4 enfoques (SVG / Puppeteer / Satori / @vercel/og) |
+| `schema-templates.md` | Índice de JSON-LD (dividido por tipo de entidad) |
+| `schema-article.md` | Article / NewsArticle / TechArticle / BreadcrumbList |
+| `schema-product.md` | Product / ProductGroup / Review / AggregateRating |
+| `schema-faq-howto.md` | FAQPage / HowTo / Recipe / QAPage |
+| `schema-organization.md` | Organization / WebSite / LocalBusiness / Event / Course |
 
 <br>
 

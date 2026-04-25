@@ -1,0 +1,17 @@
+{
+  "name": "seo-skill-astro-example",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Reference example for the seo skill — Astro site with sitemap integration, OG/Twitter/JSON-LD layout, and AI-crawler-aware robots.txt.",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "astro": "^5.0.0",
+    "@astrojs/sitemap": "^3.2.0"
+  }
+}

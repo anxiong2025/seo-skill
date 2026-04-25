@@ -128,11 +128,25 @@ your-project/
 ├── .claude/
 │   └── skills/
 │       └── seo/
-│           ├── SKILL.md          ← copy from root
-│           └── references/       ← copy from root
-│               ├── schema-templates.md
+│           ├── SKILL.md          ← copy from repo root
+│           └── references/       ← copy from repo root (all files)
+│               ├── audit-modes-guide.md
+│               ├── core-web-vitals-guide.md
+│               ├── common-seo-mistakes.md
+│               ├── competitor-analysis-guide.md
+│               ├── docs-seo.md
+│               ├── ecommerce-seo.md
+│               ├── geo-llm-optimization.md
+│               ├── going-global-seo.md
+│               ├── keyword-research-guide.md
 │               ├── meta-tag-spec.md
-│               └── og-image-guide.md
+│               ├── og-image-guide.md
+│               ├── saas-seo.md
+│               ├── schema-templates.md
+│               ├── schema-article.md
+│               ├── schema-faq-howto.md
+│               ├── schema-organization.md
+│               └── schema-product.md
 ├── src/
 │   ...
 ```

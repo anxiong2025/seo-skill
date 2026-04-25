@@ -9,8 +9,8 @@ How to create Open Graph images for social sharing previews.
 | Platform | Recommended Size | Aspect Ratio | Format |
 |----------|-----------------|--------------|--------|
 | Facebook/LinkedIn | 1200×630 | 1.91:1 | JPEG/PNG |
-| Twitter (large) | 1200×675 | 16:9 | JPEG/PNG |
-| Twitter (summary) | 600×600 | 1:1 | JPEG/PNG |
+| X / Twitter (large) | 1200×675 | 16:9 | JPEG/PNG |
+| X / Twitter (summary) | 600×600 | 1:1 | JPEG/PNG |
 | WhatsApp | 1200×630 | 1.91:1 | JPEG/PNG |
 | Slack | 1200×630 | 1.91:1 | JPEG/PNG |
 
@@ -154,8 +154,11 @@ body {
 After generating OG images, validate with:
 
 1. **Facebook Sharing Debugger** — `https://developers.facebook.com/tools/debug/`
-2. **Twitter Card Validator** — `https://cards-dev.twitter.com/validator`
-3. **LinkedIn Post Inspector** — `https://www.linkedin.com/post-inspector/`
-4. **OpenGraph.xyz** — `https://www.opengraph.xyz/`
+2. **LinkedIn Post Inspector** — `https://www.linkedin.com/post-inspector/`
+3. **OpenGraph.xyz** — `https://www.opengraph.xyz/`
+4. **X Card Validator** — deprecated in 2023; post the URL to a throwaway X account to preview
+
+Note: X/Twitter retired the standalone Card Validator tool in 2023. The only
+way to test twitter:* tags now is to post the URL and view the rendered card.
 
 Clear cache between updates — platforms aggressively cache OG data.

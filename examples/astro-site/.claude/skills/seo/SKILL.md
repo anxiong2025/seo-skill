@@ -1,13 +1,19 @@
 ---
 name: seo
-description: |
-  Comprehensive SEO audit and optimization skill for any website.
-  Performs technical SEO checks, on-page optimization, structured data validation,
-  Open Graph / social preview fixes, performance analysis, content SEO review,
-  and international SEO verification.
-  TRIGGER when: user mentions SEO, asks to improve search rankings, wants to audit
-  meta tags, fix OG images, add structured data, optimize for Google, or says /seo.
+description: Placeholder showing where to drop the seo skill inside an Astro project.
 ---
 
-<!-- This is a symlink placeholder. In real usage, copy the full SKILL.md here. -->
-<!-- See the root SKILL.md for the complete skill content. -->
+This file is a **placeholder** showing the directory where the real SKILL.md
+should live in a consuming project.
+
+To install the skill into your own Astro project:
+
+```bash
+# From the seo-skill repo root
+cp SKILL.md your-astro-project/.claude/skills/seo/
+cp -r references your-astro-project/.claude/skills/seo/
+```
+
+Then open Claude Code in your project and run `/seo`.
+
+The real SKILL.md is at the root of this repo, not here.

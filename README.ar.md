@@ -108,9 +108,14 @@ curl -sL https://raw.githubusercontent.com/anxiong2025/seo-skill/main/SKILL.md \
 ```
 
 ```bash
-# اختياري: تحميل مستندات مرجعية
+# اختياري: تحميل المستندات المرجعية (أدلة عميقة، بحث الكلمات المفتاحية، قوالب Schema…)
 mkdir -p .claude/skills/seo/references
-for f in keyword-research-guide competitor-analysis-guide schema-templates meta-tag-spec og-image-guide; do
+for f in \
+  audit-modes-guide core-web-vitals-guide common-seo-mistakes \
+  geo-llm-optimization ecommerce-seo saas-seo docs-seo going-global-seo \
+  keyword-research-guide competitor-analysis-guide \
+  meta-tag-spec og-image-guide \
+  schema-templates schema-article schema-product schema-faq-howto schema-organization; do
   curl -sL "https://raw.githubusercontent.com/anxiong2025/seo-skill/main/references/${f}.md" \
     -o ".claude/skills/seo/references/${f}.md"
 done
@@ -240,11 +245,23 @@ done
 
 | الملف | المحتوى |
 |:------|:------|
+| `audit-modes-guide.md` | أوضاع التدقيق الثلاثة + إعداد GSC/GA4 + قائمة الأدوات بدون تسجيل دخول |
+| `core-web-vitals-guide.md` | تشخيص عميق لـ CWV: قَتَلة INP، ميزانية scripts الطرف الثالث، الحقل مقابل المختبر |
+| `common-seo-mistakes.md` | فحص سريع لأكثر 15 خطأ شائع (التنازع، سلاسل إعادة التوجيه، تسرب noindex…) |
+| `geo-llm-optimization.md` | GEO بعمق: llms.txt، الاستشهاد متعدد المحركات، zero-click، تخفيف الهلوسة |
+| `ecommerce-seo.md` | التجارة الإلكترونية: canonicalization للمتغيرات، Merchant Center، التقويم الموسمي، marketplace |
+| `saas-seo.md` | SaaS: صفحات الميزات، vs/alternatives/migrate، شجرة قرار SSR للتسعير |
+| `docs-seo.md` | وثائق المطورين: إدارة الإصدارات، مراجع API، llms.txt، إزالة تكرار README |
+| `going-global-seo.md` | التوسع الخارجي: استراتيجية النطاق، E-E-A-T الغربي، عمق التوطين |
 | `keyword-research-guide.md` | سير عمل بحث الكلمات المفتاحية الكامل |
 | `competitor-analysis-guide.md` | تحليل المنافسين: مقارنة الصفحات، ميزات SERP |
-| `schema-templates.md` | 12 قالب JSON-LD جاهز للاستخدام |
 | `meta-tag-spec.md` | مواصفات meta tags: حدود الطول، التنسيق، الأخطاء الشائعة |
 | `og-image-guide.md` | إنشاء صور OG: 4 مناهج (SVG / Puppeteer / Satori / @vercel/og) |
+| `schema-templates.md` | فهرس JSON-LD (مقسّم حسب نوع الكيان) |
+| `schema-article.md` | Article / NewsArticle / TechArticle / BreadcrumbList |
+| `schema-product.md` | Product / ProductGroup / Review / AggregateRating |
+| `schema-faq-howto.md` | FAQPage / HowTo / Recipe / QAPage |
+| `schema-organization.md` | Organization / WebSite / LocalBusiness / Event / Course |
 
 <br>
 

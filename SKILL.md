@@ -1,24 +1,15 @@
 ---
 name: seo
 description: |
-  Complete SEO + GEO audit, scoring, and fix skill — 37 modules, 700+ checks, 0-100 scoring.
-  Covers: foundation, technical SEO, on-page, structured data, OG/social, favicon, performance,
-  content, international, keyword research, competitor analysis, link building, local SEO,
-  e-commerce SEO (with variants, Merchant Center, seasonal, marketplace), video SEO, advanced SEO,
-  security, accessibility, HTML validation, JS rendering/SSR,
-  deep GEO (Generative Engine Optimization for AI citation),
-  Google Search Console integration, penalty recovery, crawl budget, site migration,
-  Core Web Vitals diagnosis, ranking diagnosis, topical authority, link reclamation,
-  content freshness, SEO A/B testing, UGC & programmatic SEO, CRO for SEO,
-  international SEO deep dive, SaaS product site SEO (features/vs/alternatives/integrations/pricing/free-tools),
-  developer documentation SEO (versioning/API refs/cookbooks/llms.txt), and 出海/going-global SEO
-  (for Chinese companies expanding to Western markets with Google, Western E-E-A-T, and AI search).
-  Supports three audit modes: Offline (no login), Standard (GSC + GA4), Full (all tools).
-  Produces a weighted score (A-F grade) with critical fail cap and site-type customization.
-  TRIGGER when: user mentions SEO, GEO, search rankings, AI optimization, meta tags, OG images,
-  structured data, keyword research, competitor analysis, GSC, crawl, penalty, migration,
-  Core Web Vitals, ranking diagnosis, topical authority, link reclamation, freshness, A/B,
-  UGC, programmatic, CRO, hreflang, SaaS, docs, pricing page, 出海, going global, or says /seo.
+  SEO + GEO audit, scoring, and fix skill. 37 site-type-aware modules, 700+ checks,
+  weighted 0-100 score with A-F grade, critical-fail cap, and three audit modes
+  (Offline / Standard / Full). Covers technical, on-page, content, structured data,
+  performance (Core Web Vitals), international (hreflang), keyword research,
+  competitor analysis, GSC integration, penalty recovery, migration, ranking diagnosis,
+  topical authority, GEO (AI citation / llms.txt), SaaS, docs, e-commerce, and 出海/going-global.
+  TRIGGER when: SEO, GEO, meta tags, sitemap, robots.txt, schema.org, JSON-LD, Open Graph,
+  hreflang, Core Web Vitals, LCP/INP/CLS, GSC, ranking, keyword research, llms.txt,
+  AI Overview, SaaS / docs / e-commerce / 出海 SEO, or /seo.
 ---
 
 # SEO Audit & Optimization Skill
@@ -29,91 +20,26 @@ Systematic SEO audit and fix workflow for any website project.
 Detect Framework → Crawl Pages → Audit → Report → Fix → Verify
 ```
 
-## § 0. User-Side Prep — What the User Needs to Set Up (Once)
+## § 0. Audit Mode Selection (Do This First)
 
-Claude cannot log into the user's Google/Bing accounts. The richest SEO signals
-live behind those accounts. **All services listed below are free** — "登录"
-means account authorization, not payment. Set these up once; reuse forever.
+Claude can audit code-layer SEO without any login. Deeper signals (real queries,
+CTR, manual actions, CrUX field data) require the user to export from Google
+Search Console or paste screenshots.
 
-### 0.1 Audit Modes by Login State
+| Mode | Setup | Coverage | Use When |
+|------|-------|----------|----------|
+| **Offline** | Nothing | ~60-70% (code + public data) | Default; user opts out; cannot log in |
+| **Standard** | GSC + GA4 CSV export | ~90% | Recommended for real audits |
+| **Full** | + Bing WMT + Keyword Planner + MCP | ~100% | Serious SEO owners |
 
-| Mode | User Setup Required | Coverage | Use When |
-|------|---------------------|----------|----------|
-| **Offline mode** | Nothing | ~60-70% of audit (code layer + public data) | First pass, user opts out, or cannot log in |
-| **Standard mode** | GSC + GA4 (free) | ~90% of audit | Recommended — most users |
-| **Full mode** | + Bing WMT + Keyword Planner + MCP | ~100% of audit | Serious SEO owners |
+**At the start of a full audit:**
+1. Grep `public/` for `google-site-verification` and layouts for `G-XXXXX` — guess whether GSC/GA4 are set up.
+2. Ask the user **once**: "Offline, Standard, or Full?" Announce the chosen mode + what will be skipped.
+3. If GSC data arrives mid-audit, re-enable its modules without restarting.
+4. Never fabricate GSC data — mark GSC-dependent checks as "Unverifiable" (not "Fail") when absent.
 
-**Mode selection flow (ask the user ONCE at the start of a full audit):**
-
-```
-1. Detect login signals:
-   • Grep public/ for google-site-verification meta or googleXXXX.html → GSC likely set up
-   • Grep layouts for gtag / G-XXXXX / GoogleAnalytics → GA4 likely set up
-   • Check ~/.claude/mcp.json or project mcp config for gsc / webmaster MCP servers
-2. Ask the user:
-   "I can run in Offline mode (no login needed) or Standard/Full mode
-   (you paste GSC exports). Which do you prefer? [offline / standard / full]"
-3. Announce selected mode + what will be included / skipped
-```
-
-**Explicit rules:**
-
-- If user has GSC authorized AND shares CSV/screenshot → **run GSC-dependent modules (do NOT skip)**
-- If user opts out or has no GSC access → **skip §3.21, §3.22 manual-action check, and §3.23 crawl-stats parts** (run the rest of those modules that work on code-layer signals)
-- If user explicitly says "just use what you have" → run Offline mode silently, no repeated prompts
-- If user later provides GSC data mid-audit → re-enable GSC-dependent modules without restarting the whole audit
-- Never assume or fabricate GSC data when absent — if a module requires it and no data is provided, mark the checks as "Unverifiable" in the report (not "Fail")
-
-Announce the detected mode at the start of every audit so the user knows
-what's being skipped and why.
-
-### 0.2 One-Time User Setup (All Free)
-
-| Service | Why | Setup Time | Needed By |
-|---------|-----|------------|-----------|
-| **Google Search Console** | Real query/CTR/position data, manual action status, indexation | 5-10 min | §3.21, §3.22, §3.23, §3.24, §3.26 |
-| **Google Analytics 4** | Traffic, user behavior, conversions | 10 min | §3.0, §3.21 |
-| **Bing Webmaster Tools** | Bing/DuckDuckGo/ChatGPT-search coverage | 5 min | §3.21 (optional) |
-| **Google Keyword Planner** | Keyword search volume (requires free Ads account — no ad spend needed) | 10 min | §3.9 (optional) |
-
-**GSC setup path (the most important one):**
-1. User visits `search.google.com/search-console`
-2. Adds property → verifies ownership (Claude can generate the verification file or DNS TXT record)
-3. Waits 2-3 days for initial data population
-
-### 0.3 No-Login Tools (Claude Can Use These Without User Accounts)
-
-| Tool | URL | Use For |
-|------|-----|---------|
-| PageSpeed Insights | pagespeed.web.dev | Real CWV data (CrUX) + lab diagnosis |
-| Google Trends | trends.google.com | Search trend + seasonality + region |
-| AnswerThePublic | answerthepublic.com (3 free/day) | Google autocomplete + PAA graph |
-| Schema.org Validator | validator.schema.org | JSON-LD syntax/spec validation |
-| Rich Results Test | search.google.com/test/rich-results | Google-specific rich result eligibility |
-| Mobile-Friendly Test | search.google.com/test/mobile-friendly | Mobile rendering check |
-| Bing Keyword Research | webmaster.bing.com/keyword-research | Keyword volume (no Ads account needed) |
-
-### 0.4 How the User Hands GSC Data to Claude
-
-Claude CANNOT access GSC directly. User must export and paste. Preferred
-order by fidelity:
-
-1. **CSV export** (best): GSC → Performance → Export → CSV → paste file or
-   drag into conversation
-2. **Screenshot** (acceptable): capture the relevant chart/table; Claude reads
-   with vision
-3. **MCP server** (automated, if available): install an MCP server that wraps
-   the GSC API (e.g., community `mcp-gsc`); user authorizes once, then Claude
-   queries via MCP in future sessions. Check `~/.claude/mcp.json` or project
-   MCP config.
-
-### 0.5 Privacy & Security Notes
-
-- Never paste service account keys / OAuth tokens into the conversation —
-  paste CSV *data*, not credentials
-- GSC data contains query terms users searched — treat as PII-adjacent
-- When Claude generates verification files (HTML/DNS TXT), user places them
-  manually; Claude never pushes to production without explicit approval
+**For full prep instructions, free-tool URLs, GSC export paths, and privacy rules, see
+`references/audit-modes-guide.md`.**
 
 ---
 
@@ -444,11 +370,14 @@ Check which schemas are appropriate and whether they're correctly implemented.
 - [ ] `og:locale` — matches page language
 - [ ] `og:site_name` — brand name
 
-#### Twitter Card Tags
+#### X / Twitter Card Tags
+The platform rebranded to X in 2023, but the meta tag names still use the
+`twitter:` prefix — X honors them, LinkedIn/Slack/Discord fall back to them.
 - [ ] `twitter:card` — "summary_large_image" for articles
 - [ ] `twitter:title` — present
 - [ ] `twitter:description` — present
 - [ ] `twitter:image` — present, 1200x675px recommended
+- [ ] `twitter:site` / `twitter:creator` — `@handle` of verified X account (optional)
 
 #### OG Image Asset
 - [ ] OG image file actually exists (not a broken reference)
@@ -470,10 +399,13 @@ Check which schemas are appropriate and whether they're correctly implemented.
 
 ### 3.6 Performance SEO (Medium)
 
-#### Core Web Vitals Targets
-- [ ] LCP (Largest Contentful Paint) < 2.5s
-- [ ] INP (Interaction to Next Paint) < 200ms
-- [ ] CLS (Cumulative Layout Shift) < 0.1
+All three CWV metrics must pass at the **p75** of CrUX field data. INP replaced
+FID in March 2024 — advice referencing FID is stale.
+
+#### Core Web Vitals Targets (p75, field data)
+- [ ] LCP (Largest Contentful Paint) ≤ 2.5s
+- [ ] INP (Interaction to Next Paint) ≤ 200ms
+- [ ] CLS (Cumulative Layout Shift) ≤ 0.1
 
 #### Render-Blocking Resources
 - [ ] Critical CSS inlined or preloaded
@@ -484,7 +416,7 @@ Check which schemas are appropriate and whether they're correctly implemented.
 - [ ] Modern formats used (WebP/AVIF with fallback)
 - [ ] Responsive images (`srcset` / `<picture>`)
 - [ ] Off-viewport images use `loading="lazy"`
-- [ ] Above-fold images use `fetchpriority="high"`
+- [ ] Above-fold images use `fetchpriority="high"` (and NOT `loading="lazy"`)
 
 #### Fonts
 - [ ] `font-display: swap` or `optional` set
@@ -496,17 +428,24 @@ Check which schemas are appropriate and whether they're correctly implemented.
 - [ ] CSS/JS bundled and minified
 - [ ] Server sends gzip/brotli compressed responses
 
+**For deep diagnosis (INP killers, third-party script budget, field-vs-lab gap,
+CrUX analysis workflow), see `references/core-web-vitals-guide.md`.**
+
 ---
 
 ### 3.7 Content SEO (Medium)
 
-#### E-E-A-T Signals
+Owns content quality for **human readers + Google ranking** (E-E-A-T, HCU).
+GEO-specific AI-citation formatting lives in §3.19 + `references/geo-llm-optimization.md`.
+
+#### E-E-A-T Signals (owned here — do not re-check in §3.19)
 - [ ] Author name visible on articles
 - [ ] Author bio/credentials linked or displayed
 - [ ] Sources cited for claims and statistics
-- [ ] Publication date visible (`datePublished`)
-- [ ] Last updated date visible (`dateModified`)
-- [ ] Author schema (Person) includes credentials, social links, and bio page URL
+- [ ] Publication date visible (`datePublished` in JSON-LD + on page)
+- [ ] Last updated date visible (`dateModified` in JSON-LD + on page)
+- [ ] Author schema (`Person`) includes credentials, social links, and bio page URL
+- [ ] Original research, data, or first-hand experience present (HCU "who, how, why")
 
 #### Content Quality
 - [ ] No thin pages (< 300 words for informational content)
@@ -517,7 +456,6 @@ Check which schemas are appropriate and whether they're correctly implemented.
 #### Content Structure & Formatting
 - [ ] Long-form pages (>1500 words) have a table of contents with jump links
 - [ ] Content uses mix of formats: paragraphs, lists, tables, images, code blocks
-- [ ] FAQ sections included where appropriate (with FAQPage JSON-LD)
 - [ ] Subheadings use descriptive text containing secondary keywords
 - [ ] Content answers the primary question within the first 100 words
 
@@ -702,91 +640,28 @@ For each page, verify keyword placement:
 
 ### 3.13 E-Commerce SEO (If Applicable)
 
-#### Product Page Content
+Applies when §1.1 detects E-Commerce signals. **Full checklist in
+`references/ecommerce-seo.md`.** This summary covers the must-pass items.
+
+#### Must-Pass Checks
 - [ ] Every product has a unique, keyword-rich description (not manufacturer copy-paste)
-- [ ] Product descriptions include long-tail keyword variations naturally
-- [ ] Descriptions use bullet points, highlights, and scannable formatting
-- [ ] High-quality product images with descriptive `alt` text
-- [ ] **Product** JSON-LD with name, image, description, brand, offers (price, priceCurrency, availability)
+- [ ] `Product` JSON-LD with `name`, `image`, `description`, `brand`, `offers` (price, priceCurrency, availability)
+- [ ] `AggregateRating` schema matches visible reviews (mismatches → Google disapproval)
+- [ ] Product URLs are clean: `/products/product-name` not `/products?id=123`
+- [ ] Faceted navigation uses canonical or noindex (no duplicate/thin pages)
+- [ ] Out-of-stock handled with `availability: "OutOfStock"` (never 404 with backlinks)
+- [ ] Permanently discontinued products 301 to replacement or collection (never 404 if traffic exists)
+- [ ] One canonical taxonomy per product (category OR collection OR tag — not all three)
+- [ ] Shopify: decided whether `/collections/` or `/products/` is the canonical URL
 
-#### Review & Rating Schema
-- [ ] **AggregateRating** schema added to product pages (if reviews exist)
-- [ ] Review display component exists on product pages
-- [ ] Rating data in JSON-LD matches visible review content
-
-**How to check:**
-```
-Grep for "Product" and "AggregateRating" in JSON-LD scripts
-Check product page templates for review rendering components
-```
-
-#### Collection/Category Pages
-- [ ] Each collection page has unique descriptive content (not just a product grid)
-- [ ] Collection pages target commercial keywords ("best X", "top X", "X for [audience]")
-- [ ] Collection pages include internal links to individual product pages
-- [ ] Collection descriptions contain relevant keywords naturally
-
-#### E-Commerce Technical
-- [ ] Out-of-stock products handled properly (keep page live, show status, suggest alternatives — not 404)
-- [ ] Pagination uses `rel="next"` / `rel="prev"` or infinite scroll with crawlable links
-- [ ] Faceted navigation doesn't create duplicate/thin pages (use canonical or noindex on filter URLs)
-- [ ] Product URL structure is clean: `/products/product-name` not `/products?id=123`
-
-#### Product Variants (Color / Size / Material) — Canonicalization Decision Tree
-- [ ] Variants share same product page + JS swap (default for most stores): one canonical URL, `Product` schema uses `hasVariant` / `ProductGroup`
-- [ ] Variants have separate indexable URLs only if: (a) each has unique search demand, (b) each has unique content/images worth a dedicated page
-- [ ] If variants are separate URLs: self-referential canonical per variant, `isVariantOf` pointing to parent product group
-- [ ] Color/size picker state does NOT generate crawlable duplicate URLs (block `?color=red` with robots or canonical to parent)
-- [ ] Default variant selected on page load (avoid empty PDP before JS hydration)
-
-#### Out-of-Stock — Scenario-Based Handling
-- [ ] **Temporarily out of stock** → keep page live, `availability: "OutOfStock"` in schema, show restock date or waitlist
-- [ ] **Permanently discontinued** → 301 redirect to replacement product or nearest collection page (never 404 if page has backlinks/traffic)
-- [ ] **Seasonal products** → keep page live year-round, show "Available [season]" messaging
-- [ ] **Collection page** with 100% out-of-stock products → show related collections, don't let it become a thin page
-- [ ] Sort out-of-stock products to the bottom of collection listings (or filter behind toggle)
-
-#### Google Merchant Center & Shopping Feed
-- [ ] Merchant Center account connected (free) — enables Shopping tab, free product listings, Google AI citations for shopping queries
-- [ ] Product feed submitted (XML, TSV, or Content API) with all required attributes: `id`, `title`, `description`, `link`, `image_link`, `price`, `availability`, `brand`, `gtin` or `mpn`
-- [ ] Feed `title` and `description` optimized (include brand, model, key attributes — these drive Shopping SERP ranking, not just ads)
-- [ ] `gtin` (UPC/EAN/ISBN) populated for manufactured goods — critical for matching
-- [ ] Product Schema on-site MUST match feed (price, availability) — mismatch triggers disapproval
-- [ ] Feed refreshed at least daily (hourly for high-velocity inventory)
-
-#### Long-Tail Commercial Content ("Best X for Y")
-- [ ] "Best [category] for [audience]" guide pages (e.g., "Best running shoes for flat feet") — huge commercial intent
-- [ ] "[Product A] vs [Product B]" comparison pages (own the comparison SERP before affiliates do)
-- [ ] "[Product] alternatives" and "[Competitor] alternatives" pages
-- [ ] "How to choose [product type]" buying guides — mid-funnel capture
-- [ ] Size/fit guides, care instructions, compatibility tables — serve existing customers AND rank
-
-#### Seasonal / Event Content Calendar
-- [ ] Black Friday / Cyber Monday hub page exists year-round (same URL, refreshed yearly — preserves rankings and backlinks)
-- [ ] Region-appropriate events covered: 双11 / 618 (China), Diwali (India), Prime Day (US/EU), Boxing Day (UK/CA)
-- [ ] Seasonal URLs use stable slugs (`/black-friday/` not `/black-friday-2024/`) — avoid URL decay
-- [ ] Gift guides: "Gifts for [recipient] under $X", "[Holiday] gift guide"
-- [ ] Schema `Product` offers updated with sale `price`, `priceValidUntil`, `availability` during promotions
-
-#### Review UGC with Images & Video
-- [ ] Reviews with photos/videos rendered in HTML (not JS-only) — Google uses these for SERP thumbnails
-- [ ] Review images have descriptive alt text
-- [ ] `Review` schema includes `author`, `reviewRating`, `datePublished`, and `image` when UGC images exist
-- [ ] Review text is in-page content (crawlable) — reviews in `<iframe>` or JS-injected from third-party widget often invisible to crawlers
-- [ ] Review sort/filter doesn't generate duplicate URLs (canonical to default sort)
-
-#### Category vs Collection vs Tag — Dedup Strategy
-- [ ] ONE primary taxonomy per product (pick: category OR collection OR tag — don't index all three)
-- [ ] Shopify: decide whether `/collections/` or `/products/` is the canonical product URL; apply consistently (many stores accidentally index both)
-- [ ] Tag pages (e.g., `/tags/sale`) noindexed unless each tag has unique content and search demand
-- [ ] Overlapping collections (e.g., "Red Dresses" and "Dresses: Red filter") consolidated to one URL
-- [ ] Brand pages (`/brands/nike`) treated as distinct collections with unique brand content (not just product grid)
-
-#### Marketplace / Multi-Seller Sites (Amazon/Etsy-style)
-- [ ] Seller storefronts have unique brand content (not just their product grid)
-- [ ] Product listings from multiple sellers consolidate to one canonical (`Product` schema + multiple `Offer` nodes), not N duplicate pages
-- [ ] Seller review aggregation separate from product review aggregation (distinct schema contexts)
-- [ ] Search results pages (`/search?q=...`) noindexed to avoid infinite thin pages
+#### Deep-dive topics (see `references/ecommerce-seo.md`)
+- Product variant canonicalization decision tree (hasVariant vs separate URLs)
+- Out-of-stock scenario handling (temporary / permanent / seasonal / collection-wide)
+- Google Merchant Center & Shopping feed optimization
+- Long-tail commercial content ("Best X for Y", comparisons, alternatives)
+- Seasonal / event content calendar with stable slugs
+- Review UGC with images & video
+- Marketplace / multi-seller canonicalization
 
 ---
 
@@ -976,95 +851,49 @@ Static HTML: Already server-rendered ✓
 
 ### 3.19 GEO — Generative Engine Optimization (High)
 
-GEO (Generative Engine Optimization) optimizes content to be **cited by AI systems** — ChatGPT, Perplexity, Google AI Overviews, Claude. This is as important as traditional SEO for future traffic.
+Optimize content to be **cited by AI systems** — ChatGPT, Perplexity, Google AI
+Overviews, Claude. In 2026 this is as important as traditional SEO; for
+B2B/tech topics it is often already the dominant channel.
 
-#### AI Crawler Access & Discovery
-- [ ] robots.txt explicitly ALLOWS: GPTBot, ClaudeBot, PerplexityBot, Google-Extended, Googlebot
-- [ ] Or: intentionally blocks specific AI crawlers with documented business reason
-- [ ] `llms.txt` file exists at site root (plain-text site description for LLMs)
-- [ ] `llms-full.txt` exists with comprehensive site content summary (optional but recommended)
-- [ ] Sitemap includes all content pages AI should discover
+**Scope vs §3.7 Content SEO.** §3.7 = human + Google ranking (E-E-A-T bylines,
+content depth). §3.19 = AI extraction. Author bylines, `datePublished`,
+`dateModified`, and Person schema are owned by §3.7 — do not re-check here.
 
-**How to create llms.txt:**
+#### Core GEO Checklist (summary)
+- [ ] robots.txt explicitly ALLOWS: GPTBot, ChatGPT-User, ClaudeBot, PerplexityBot, Google-Extended, Googlebot
+- [ ] `llms.txt` exists at site root (index of canonical URLs with one-line descriptions)
+- [ ] `llms-full.txt` or per-page `.md` mirrors for docs / knowledge bases
+- [ ] Direct answer to page's primary question in the **first 100 words**
+- [ ] Claims quantified with source + date: "73% of users (Source XYZ, 2025)"
+- [ ] Definitions use `<dfn>Term</dfn>` or `<strong>Term</strong> is [clear definition].`
+- [ ] FAQ, HowTo, comparison content use strict semantic structure (FAQPage/HowTo JSON-LD, `<ol>`, `<table>` with `<caption>`)
+- [ ] Each section is **self-contained** — can be quoted without surrounding context
+- [ ] Entity consistency: brand/product spelled identically everywhere
+- [ ] `sameAs` in Organization/Person schema links to **verified** profiles (LinkedIn, Wikidata, verified X/Twitter)
+- [ ] Canonical phrasing for critical facts (the exact sentence you want LLMs to quote)
+- [ ] Dated claims: "As of [Month Year], …" for anything that changes
+
+#### Deep-dive topics (see `references/geo-llm-optimization.md`)
+- llms.txt vs llms-full.txt decision + skeleton template
+- Multi-engine citation patterns (Google AI Overview vs ChatGPT vs Perplexity vs Claude)
+- Zero-click / AI Overview optimization tradeoffs vs conversion copy
+- Conversational query optimization (compound questions, disambiguation)
+- Hallucination & misquotation mitigation (canonical phrasing, negative statements, error-correction pages)
+- Attribution hierarchy — why some sites get cited and others don't
+- Blocking AI crawlers (when appropriate) with GPTBot / Google-Extended
+
+#### Verification (at a glance)
 ```
-# llms.txt — placed at public/llms.txt
-# Site: [Your Site Name]
-# Description: [What your site is about]
-# Key Topics: [Main topics covered]
-# Content Types: [Blog posts, tutorials, product pages, etc.]
-# Language: [Primary language]
-# Contact: [How to reference/cite]
-```
-
-#### Citation-Optimized Content Structure
-- [ ] Every page has a clear, direct answer to its primary question in the first 100 words
-- [ ] Claims are specific and quantified (not vague: "many" → "73% of users")
-- [ ] Statistics and data points include sources and dates
-- [ ] Definitions follow the pattern: `<strong>Term</strong> is [clear definition]`
-- [ ] Lists and tables used for comparisons (AI systems extract structured data easily)
-- [ ] Each section is self-contained (can be cited independently without surrounding context)
-
-#### Authority & Trust Signals for AI
-- [ ] Author name, credentials, and expertise visible on every article
-- [ ] Author schema (Person) with `sameAs` links to authoritative profiles
-- [ ] Organization schema with `sameAs` links to verified social/professional accounts
-- [ ] Published date and last modified date visible and in JSON-LD
-- [ ] External citations to authoritative sources (links to .gov, .edu, industry leaders)
-- [ ] Original research, data, or unique insights that AI systems can't find elsewhere
-
-#### Semantic Markup for AI Extraction
-- [ ] Proper heading hierarchy (H1 → H2 → H3) creates a clear document outline
-- [ ] `<article>` wraps main content, `<aside>` wraps supplementary content
-- [ ] `<blockquote>` with `cite` attribute for quoted content
-- [ ] `<dfn>` for term definitions, `<abbr>` for abbreviations
-- [ ] `<figure>` + `<figcaption>` for images/charts with descriptions
-- [ ] `<time datetime="ISO-8601">` for all dates
-- [ ] `<code>` for technical terms, `<mark>` for highlighted key points
-
-#### AI Overview & Featured Answer Optimization
-- [ ] First 100 words directly answer the page's primary question (AI systems extract opening paragraphs)
-- [ ] All factual claims include a source (link to .gov, .edu, or recognized publication)
-- [ ] Data is **quantified and dated**: not "many users" but "73% of users (Source XYZ, 2025)"
-- [ ] FAQ content follows strict Q&A format: `<h3>Question?</h3> <p>Direct answer (self-contained)...</p>` + FAQPage JSON-LD
-- [ ] "How to X" uses numbered `<ol>` steps with explicit step titles in `<strong>` or `<h4>`
-- [ ] Comparison content uses `<table>` with `<th>` column headers and `<caption>` describing what's compared
-- [ ] Each section is **self-contained** — can be quoted without needing surrounding context to make sense
-- [ ] Author credentials visible on-page (bio line) and in Person schema (`sameAs` to verified profile)
-- [ ] Definitions use the pattern: `<dfn>Term</dfn>` or `<strong>Term</strong> is [clear definition].`
-- [ ] Content anticipates follow-up questions and answers them in subsequent sections
-
-#### Entity & Knowledge Graph Optimization
-- [ ] Brand/product names used consistently (identical spelling/casing everywhere) — helps AI disambiguate; **not a direct Google ranking factor** but improves citation quality
-- [ ] Entity relationships made explicit in prose: "[Product] is a [category] made by [Company] for [Audience]" — improves AI triple extraction
-- [ ] Key entities linked to authoritative sources (Wikipedia, official sites) — gives AI a verification anchor
-- [ ] `sameAs` in Organization/Person schema links to **verified** profiles (company LinkedIn, author's public professional account, Wikidata Q-ID if applicable)
-- [ ] Topic clusters: hub page links to all related sub-pages; each sub-page links back to the hub (bidirectional)
-
-#### Multi-Engine Optimization
-- [ ] Content optimized for Google AI Overviews (authoritative, well-structured, cited)
-- [ ] Content optimized for ChatGPT citations (clear claims, named sources, specific data)
-- [ ] Content optimized for Perplexity (direct answers, numbered lists, source URLs)
-- [ ] Content optimized for Claude (semantic HTML, logical structure, factual accuracy)
-- [ ] Monitor: use WebFetch to check if your content appears in AI answers for target queries
-
-**How to verify AI citation (realistic workflow):**
-```
-For each target keyword:
-1. User searches Google for the query → notes whether AI Overview appears
-   and whether it cites your site. (Claude cannot reliably scrape AI Overviews.)
-2. User asks Claude/ChatGPT/Perplexity the same question in a fresh session →
-   notes whether the AI cites your site. Note: citations are heavily influenced
-   by training data recency and backlink authority, not just your page structure.
-3. WebFetch each URL the AI Overview DID cite → analyze their structure
-   (heading depth, word count, schema, author signals). Match or exceed.
-4. Re-check monthly. If after 3 months you still aren't cited, the bottleneck
-   is likely authority/backlinks, not page structure.
+For each priority page × target query:
+1. User searches Google in incognito → captures AI Overview + cited URLs
+2. User asks ChatGPT / Perplexity / Claude in fresh sessions → logs citations
+3. WebFetch cited URLs → compare structure, schema, authority
+4. Re-check monthly. Uncited after 3 months with good structure → authority is the bottleneck, not GEO.
 ```
 
-**Realistic expectation:** LLM citation is uncertain and slow. Focus on
-**structure + authority + freshness** simultaneously. A well-structured page
-on a low-authority domain rarely gets cited; a poorly-structured page on a
-high-authority domain often is.
+**Realistic expectation.** LLM citation is uncertain and slow. Optimize
+**structure + authority + freshness** together. No single lever unlocks
+citation alone.
 
 ---
 
@@ -1325,67 +1154,28 @@ migrations regularly cause 30-70% traffic loss.
 
 ### 3.25 Core Web Vitals Diagnosis (High)
 
-Goes beyond § 3.6 targets. Diagnoses *why* CWV fail and prescribes fixes.
+Goes beyond §3.6 targets — diagnoses *why* CWV fail and prescribes fixes.
+**Full diagnosis playbook in `references/core-web-vitals-guide.md`** (INP killers,
+third-party script budget, field-vs-lab gap, CrUX analysis workflow).
 
-#### Data Sources (Prefer in This Order)
-1. **CrUX Report** (real user data, 28-day rolling) — authoritative but needs ≥ sufficient traffic
-2. **PageSpeed Insights** (pagespeed.web.dev) — combines CrUX (field) + Lighthouse (lab)
-3. **GSC → Core Web Vitals** — site-wide CrUX aggregation by URL group
-4. **Lab testing** (Lighthouse in DevTools, WebPageTest) — only when field data unavailable
+#### Data Sources (in priority order)
+1. **CrUX Report** (real user, 28-day rolling) — authoritative; what Google ranks on
+2. **PageSpeed Insights** — CrUX field + Lighthouse lab per URL
+3. **GSC → Core Web Vitals** — site-wide CrUX by URL group; shows which patterns fail
+4. **Lighthouse / WebPageTest** — lab only; for debugging, not pass/fail
 
-Check field data first — lab data predicts lab data, not real user experience.
+**Rule:** If Lighthouse is green but CrUX is red, the problem is almost always
+INP from real interactions that the lab run never performed.
 
-#### LCP Diagnosis (Target < 2.5s)
-
-Identify the LCP element first:
-
+#### Quick Diagnosis Flow
 ```
-In DevTools → Performance → record page load → "LCP" marker shows element
-Common LCP elements: hero image, H1 text, primary card image
-```
-
-Then apply the fix:
-
-| LCP Element | Likely Cause | Fix |
-|-------------|--------------|-----|
-| Hero image | Large file size, no preload | Compress (WebP/AVIF), add `<link rel="preload" as="image" fetchpriority="high">`, serve via CDN |
-| Hero image | Lazy loading (mistakenly) | Remove `loading="lazy"` from above-fold image; add `fetchpriority="high"` |
-| Above-fold text | Blocking webfont | Preload font + `font-display: swap`; consider self-host vs CDN |
-| Any | Slow server TTFB | Optimize server (caching, edge, DB queries); target TTFB < 600ms |
-| Any | Render-blocking CSS | Inline critical CSS, defer non-critical with `media="print" onload` trick |
-| Any | Render-blocking JS | Move scripts to `<body>` end with `defer` or `async` |
-| Any | Hydration delay (SPA) | Partial hydration, islands architecture, SSG for static routes |
-
-#### INP Diagnosis (Target < 200ms)
-
-INP measures interaction latency — clicks, taps, keypresses.
-
-- [ ] Identify slow interactions via DevTools → Performance → Interactions track
-- [ ] Long task audit: any JS task > 50ms blocks main thread
-- [ ] Common INP killers: heavy event handlers, large React re-renders, synchronous LocalStorage access, third-party scripts
-
-| Cause | Fix |
-|-------|-----|
-| Heavy JS in handler | `requestIdleCallback` or `setTimeout(fn, 0)` to defer non-critical work |
-| Large React re-render | `useMemo`, `useCallback`, `React.memo`; avoid setState in handlers |
-| Third-party analytics on click | Load analytics after idle, not inline in handler |
-| LocalStorage sync reads | Cache in memory, read once at init |
-| Unoptimized lists | Virtualize long lists (react-window, tanstack virtual) |
-
-#### CLS Diagnosis (Target < 0.1)
-
-CLS measures visual instability during page load.
-
-Top causes:
-1. Images without `width`/`height` → reserve space with `aspect-ratio` or explicit dimensions
-2. Ads/embeds loaded asynchronously → reserve minimum space container
-3. Webfonts causing FOIT/FOUT → `size-adjust` in `@font-face`, match fallback metrics
-4. Late-injected banners (consent, announcement) → reserve space at top OR inject below fold
-5. Dynamically injected content above existing content → inject below instead
-
-```
-# Find images missing dimensions
-Grep -rn '<img' src/ | grep -v 'width=' | grep -v 'height='
+1. GSC → Core Web Vitals → identify the worst URL pattern
+2. PageSpeed Insights on 2-3 URLs from that pattern → read FIELD data first
+3. For the failing metric, jump to:
+     LCP → identify LCP element in DevTools Performance → fix by root cause
+     INP → record interactions in DevTools → find long tasks > 50ms → defer/split
+     CLS → find shifting elements in Lighthouse "Avoid large layout shifts"
+4. Ship fix, wait 4 weeks for CrUX to reflect it
 ```
 
 #### Diagnosis Report Template
@@ -1398,10 +1188,13 @@ LCP element: hero image (hero.jpg, 850KB)
 Bottleneck:  uncompressed image + no preload + lazy-loaded above fold
 Fixes (in order of impact):
   1. Convert to AVIF + WebP fallback (est. 120KB)     → LCP -1.5s
-  2. Add <link rel="preload" fetchpriority="high">   → LCP -0.3s
+  2. Add <link rel="preload" fetchpriority="high">    → LCP -0.3s
   3. Remove loading="lazy" from hero                  → LCP -0.2s
 Expected post-fix LCP: 1.2s ✅
 ```
+
+For the LCP / INP / CLS root-cause tables and the third-party script budget,
+see `references/core-web-vitals-guide.md`.
 
 ---
 
@@ -1867,248 +1660,85 @@ Rule: use language-only code (`en`, `de`) if content doesn't differ by region; u
 
 ### 3.34 SaaS / Product Site SEO (If Applicable)
 
-SaaS and product marketing sites have a distinct SEO playbook: feature pages,
-competitive comparison pages, integration directories, pricing SEO, and free
-tools. These pages drive high-intent trial/signup traffic.
+Applies when §1.1 detects SaaS signals (`/features/`, `/pricing/`,
+`/integrations/`, `SoftwareApplication` schema, trial/signup flow).
+**Full checklist in `references/saas-seo.md`.**
 
-#### Site Architecture — Marketing vs Docs Separation
-- [ ] Marketing site and product docs are clearly separated (e.g., `example.com` vs `docs.example.com` or `example.com/docs/`)
-- [ ] Marketing pages target commercial/informational queries; docs target navigational/problem-solving queries — no cannibalization
-- [ ] If docs on subdomain: cross-linked from marketing nav; both submit sitemaps; schema `sameAs` or `isPartOf` links them
-- [ ] If docs on subfolder: centralizes authority; but requires separate content ownership to avoid dilution
+#### Must-Pass Checks
+- [ ] Marketing site and docs clearly separated (subdomain or subfolder, no cannibalization)
+- [ ] One page per major feature at `/features/[feature]/` with unique content (not boilerplate)
+- [ ] `/vs/[competitor]/` pages for top 3-10 direct competitors (title: `[Your Product] vs [Competitor]`)
+- [ ] `/alternatives/[competitor]/` pages for dissatisfied-user intent
+- [ ] `/integrations/[tool]/` pages with unique content; thin ones noindexed
+- [ ] Pricing page **server-rendered** (the #1 SaaS SEO bug: client-only pricing → Googlebot sees "Loading…")
+- [ ] `Product` schema with `offers` for each pricing tier; FAQ schema on common pricing questions
+- [ ] `/signup`, `/login`, `/app/*`, thank-you pages are `noindex`
+- [ ] Changelog with dated entries + RSS — strong freshness signal
 
-#### Feature Pages
-- [ ] One page per major feature at `/features/[feature-name]/` — each targets its own keyword cluster
-- [ ] Feature page covers: what it does, why it matters, visual/demo, use cases, FAQ, CTA
-- [ ] Feature page title pattern: `[Feature] — [Primary Benefit] | [Brand]` (not `[Brand] [Feature]`)
-- [ ] Feature schema: `SoftwareApplication` or `Product` with `featureList`
-- [ ] Cross-link from feature page to related features, related docs, and relevant use-case pages
-- [ ] Each feature page has unique hero copy and screenshots — not boilerplate with only the feature name swapped (thin-content risk)
-
-#### `/vs/[competitor]/` Comparison Pages
-- [ ] Comparison pages exist for top 3-10 direct competitors (`/vs/notion/`, `/vs/airtable/`, etc.) — high commercial intent
-- [ ] Title pattern: `[Your Product] vs [Competitor] — [Year-agnostic hook] | [Brand]`
-- [ ] Content includes: side-by-side feature table, pricing comparison, use-case fit, honest pros/cons of competitor
-- [ ] NEVER just trash the competitor — Google penalizes thin hit-pieces; write for users who are comparing
-- [ ] Use comparison table with semantic `<table>`, `<th>`, clear column headers (extractable as SERP table snippet)
-- [ ] Migration/switching content: "How to move from [Competitor] to [Your Product]"
-- [ ] Competitor name in URL, title, H1, and first paragraph — but avoid trademark misuse (don't claim ownership)
-
-#### `/alternatives/[competitor]/` Pages
-- [ ] Alternatives pages for top competitors (`/alternatives/slack/`, `/alternatives/salesforce/`)
-- [ ] Different intent from `/vs/`: user is already dissatisfied and looking for options — less comparison, more "why switch"
-- [ ] Lists 3-5 alternatives (including your product prominently), not just self-promotion
-- [ ] Each alternative has honest summary — builds trust AND ranks better than self-only pages
-- [ ] Schema: `ItemList` of products being compared
-
-#### `/integrations/[tool]/` Pages
-- [ ] One page per major integration (`/integrations/zapier/`, `/integrations/github/`, etc.)
-- [ ] Each integration page targets "[Your Product] + [Tool]" and "[Your Product] [Tool] integration" queries
-- [ ] Content: what the integration does, setup steps, use cases, video/screenshot
-- [ ] Integrations directory hub page (`/integrations/`) with searchable/filterable grid
-- [ ] Integration schema: mention both tools with `sameAs` links to their official sites
-- [ ] Integrations cross-linked from feature pages and use-case pages
-
-#### Pricing Page SEO
-- [ ] Pricing page is server-rendered or has pre-rendered HTML (common SaaS bug: pricing table renders client-only → Googlebot sees "Loading..." and AI crawlers see nothing)
-- [ ] Pricing tiers in crawlable HTML with semantic structure (`<table>` or definition lists)
-- [ ] `Product` schema with `offers` for each tier (price, priceCurrency, billingIncrement)
-- [ ] FAQ schema for common pricing questions ("Can I cancel anytime?", "Is there a free plan?")
-- [ ] Pricing page linked from main nav, footer, and most feature pages
-- [ ] "Enterprise" / "Contact us" tier has a price range hint if possible (avoid Google "no price" error)
-- [ ] Annual vs monthly toggle state does not create duplicate URLs (use one canonical page, toggle via JS)
-
-#### Free Tools & Calculators (Linkable Assets)
-- [ ] Free tools/calculators live at `/tools/[tool-name]/` or `/free-tools/[tool-name]/`
-- [ ] Each tool targets a specific job-to-be-done query (e.g., "roi calculator", "uuid generator", "regex tester")
-- [ ] Tool must WORK without signup — gating kills organic rankings AND backlinks
-- [ ] Each tool page has: tool UI + how-to-use content + FAQ + related tools
-- [ ] Tool pages target high-backlink potential keywords — free tools are the #1 SaaS linkbuilding asset
-- [ ] `SoftwareApplication` or `WebApplication` schema with `applicationCategory: "Calculator"` or similar
-- [ ] Tool output is crawlable/shareable (permalink URLs for results enable social/blog citations)
-
-#### Use Case / Industry Pages
-- [ ] Use case pages: `/use-cases/[job]/` (e.g., "project management for agencies")
-- [ ] Industry pages: `/solutions/[industry]/` (e.g., "for healthcare", "for e-commerce")
-- [ ] Each page targets "[product category] for [audience]" long-tail
-- [ ] Use case pages include industry-specific screenshots, testimonials, case studies — not boilerplate
-- [ ] Link from use case pages to relevant features, customer stories, and blog posts
-- [ ] Keep page count manageable — 50 near-duplicate use-case pages triggers HCU; 10 substantive ones rank
-
-#### Customer Story / Case Study Pages
-- [ ] `/customers/[name]/` or `/case-studies/[name]/` — each customer has unique story
-- [ ] Story structure: company context → problem → solution (your product) → results with metrics
-- [ ] Schema: `Organization` (customer) + `Review` or `Testimonial` + `Product` reference
-- [ ] Customer logos on homepage link to case study pages (passes internal authority + aids navigation)
-- [ ] Metric-heavy headlines ("Saved 40 hours/week", "3x pipeline") — good for both trust and AI citation
-
-#### Changelog / Product Updates (Freshness Signal)
-- [ ] `/changelog/` or `/whats-new/` page with dated updates — strong freshness signal
-- [ ] Each major update gets its own URL (`/changelog/2026-03-new-ai-features/`) — linkable and indexable
-- [ ] RSS feed for changelog (enables newsletter tools and aggregator backlinks)
-- [ ] Changelog cross-referenced from relevant feature pages (shows active development)
-- [ ] `Article` or `TechArticle` schema per entry with `datePublished`
-
-#### Signup / Trial Flow SEO Hygiene
-- [ ] `/signup`, `/login`, `/app/*` pages are `noindex` (prevent auth-gated clutter in search)
-- [ ] Marketing CTAs use descriptive anchor text ("Start free trial", not "click here")
-- [ ] Trial landing pages have unique meta (each campaign variant canonicalized to main)
-- [ ] Thank-you / post-signup pages are `noindex`
+#### Deep-dive topics (see `references/saas-seo.md`)
+- Migration / "Switch from X" pages (high-intent conversion play)
+- Integrations canonicalization at scale (50+ integrations)
+- Pricing SSR vs pre-render decision tree (static / localized / dynamic)
+- Free tools & calculators as linkbuilding assets
+- Use-case / industry pages with HCU discipline (10 substantive > 50 boilerplate)
+- Customer stories / case studies with metric-heavy headlines
 
 ---
 
 ### 3.35 Developer Documentation SEO (If Applicable)
 
-Documentation sites have unique SEO needs: API references with JS-rendered content,
-versioned URLs, code snippets as ranking assets, and high AI-citation value.
+Applies when §1.1 detects docs signals (`/docs/`, `/api/`, OpenAPI/Swagger,
+versioned routes). Docs are the #1 LLM citation target — pair with
+§3.19 GEO + `references/geo-llm-optimization.md`.
+**Full checklist in `references/docs-seo.md`.**
 
-#### Version Management
-- [ ] Decide indexing strategy for versioned docs: index latest only (common) OR index all versions with clear canonicalization
-- [ ] If indexing only latest: versioned URLs (`/v1/`, `/v2/`) canonical to `/latest/` equivalent OR noindex older versions
-- [ ] If indexing all versions: self-canonical per version + clear version switcher UI + `lastmod` per version
-- [ ] Never have `/docs/[topic]/` duplicate of `/docs/latest/[topic]/` without canonical — Google sees duplicates
-- [ ] Unversioned URL (`/docs/topic/`) redirects or renders latest; never dead
-- [ ] Sitemap lists only indexed versions (don't submit deprecated versions)
+#### Must-Pass Checks
+- [ ] Version indexing strategy chosen (latest-only canonical, or all versions with self-canonical)
+- [ ] API reference is server-rendered or pre-rendered — NOT client-side OpenAPI (the #1 docs SEO bug)
+- [ ] Each API endpoint has its own URL + unique H1 (not an SPA that swaps content)
+- [ ] Error messages appear verbatim in HTML (devs Google error strings)
+- [ ] Code snippets are crawlable `<pre><code>` with language hint — not images of code, not hidden gists
+- [ ] `HowTo` JSON-LD on tutorials with numbered steps
+- [ ] `llms.txt` groups docs by Quickstart / Guides / API / Integrations / FAQ
+- [ ] `llms-full.txt` OR per-page `.md` mirrors (e.g., `/docs/intro.md` next to `/docs/intro`)
+- [ ] Deprecated pages labeled + link to replacement; never 404 if they have backlinks
+- [ ] Docs search (`/docs/search?q=…`) noindexed
 
-#### API Reference Pages (JS-Rendered Risk)
-- [ ] API reference content is server-rendered or pre-rendered at build (not JS-fetched from OpenAPI spec at runtime)
-- [ ] Each API endpoint has its own URL + unique H1 + description — not a single-page app that swaps content via JS
-- [ ] HTTP methods, parameters, request/response examples present in initial HTML (test with JS disabled or Googlebot mobile)
-- [ ] Common tools that cause SEO bugs: Redoc/Swagger UI with client-side rendering — switch to Redocly Static, MDX-based docs, or Hugo/Astro with pre-rendered content
-
-#### Code Snippet SEO
-- [ ] Error messages appear verbatim in HTML (developers Google error strings — own that SERP)
-- [ ] Method signatures and function names in `<code>` tags with surrounding explanatory prose
-- [ ] Code examples are crawlable `<pre><code>` — not images of code, not embedded gists that hide content
-- [ ] Code has language hint (`class="language-python"` etc.) — aids AI understanding and syntax-highlighted rich snippets
-- [ ] Common error messages get dedicated troubleshooting pages (`/errors/ERR_INVALID_FOO/`)
-
-#### Cookbook / Recipes / How-To Structure
-- [ ] How-to content structured with `HowTo` JSON-LD (`step`, `totalTime`, `tool`, `supply`)
-- [ ] Each recipe/cookbook entry targets a specific task query ("how to [verb] with [product]")
-- [ ] Headers use task language: "How to authenticate a user", not "Authentication"
-- [ ] Step-by-step numbered lists in HTML (Google extracts as step snippets)
-- [ ] Complete working examples (not partial fragments) — higher AI citation rate
-
-#### Deprecation & Migration Pages
-- [ ] Deprecated API/feature pages clearly labeled at top (`<aside role="alert">` + "Deprecated" banner)
-- [ ] Deprecated pages link to replacement (internal link passes users AND authority)
-- [ ] Migration guide pages for major version bumps (`/migrate/v1-to-v2/`) — high intent, high traffic
-- [ ] Never 404 deprecated pages if they have backlinks/traffic — 301 to replacement or keep as historical with canonical to current
-
-#### llms.txt for Docs (High Value)
-- [ ] `llms.txt` lists the docs structure, with direct links to full-text `.md` or `llms-full.txt` — docs are the #1 LLM training/citation target
-- [ ] `llms-full.txt` or per-page `.md` variants available (e.g., `/docs/intro.md` mirrors `/docs/intro`)
-- [ ] Docs content is MDX/Markdown-friendly; expose raw Markdown as companion to HTML
-- [ ] `llms.txt` groups docs by: Quickstart, Guides, API Reference, Integrations, FAQ
-
-#### GitHub README ↔ Docs Site Deduplication
-- [ ] Canonical choice: docs site is primary (richer, versioned) OR GitHub README is primary (simple projects)
-- [ ] If docs site primary: README is a short summary with link to docs; don't duplicate full getting-started on both (Google picks one, often the wrong one)
-- [ ] If both must exist: docs site pages canonical to themselves; README has no canonical (GitHub doesn't honor it anyway) but content should differ
-- [ ] GitHub Pages / ReadTheDocs mirror duplication — pick ONE primary and 301 the other
-
-#### Interactive Playgrounds & Embeds
-- [ ] CodeSandbox / StackBlitz embeds have text fallback context (surrounding prose) — embeds themselves are invisible to Googlebot
-- [ ] Each playground example has a unique indexable URL with descriptive content
-- [ ] Playground URLs don't get crawled into infinite variant space (noindex dynamic result URLs)
-
-#### Search Within Docs (Internal Search)
-- [ ] Docs search (`/docs/search?q=...`) noindexed — prevents infinite thin pages
-- [ ] Algolia DocSearch or equivalent configured (doesn't affect SEO but dramatically improves UX, reducing bounce from SERP)
-- [ ] Dead-end "No results" search pages noindexed
-
-#### Content Length & Structure for Docs
-- [ ] Reference pages can be shorter (50-300 words) IF they serve a clear navigational intent — not thin content
-- [ ] Tutorial/guide pages aim for 800-2000 words with runnable examples
-- [ ] Every doc page has: clear H1, one-sentence summary, table of contents (for long pages), runnable example, "Next steps"
-- [ ] Prerequisites and "related topics" sections — internal linking + AI context
+#### Deep-dive topics (see `references/docs-seo.md`)
+- Version management strategies (latest-only vs all-versions)
+- API reference SSR patterns (Redoc Static, MDX, Hugo/Astro)
+- GitHub README ↔ docs site deduplication
+- Interactive playgrounds (CodeSandbox/StackBlitz) visibility
+- Migration guides for major version bumps
 
 ---
 
 ### 3.36 出海 SEO — Chinese Companies Going Global (If Applicable)
 
-For Chinese companies expanding to Western markets (US/EU/SEA). The playbook
-differs from domestic SEO: Google instead of Baidu, Western E-E-A-T standards,
-brand re-introduction, and AI search (ChatGPT/Perplexity) in target markets.
+Applies when §1.1 detects 出海 signals (Chinese content targeting Western
+markets, `zh` + `en/de/fr` locales, Chinese brand going global).
+**Full checklist in `references/going-global-seo.md`.**
 
-#### Target Market & Search Engine Strategy
-- [ ] Primary market identified (US, UK, EU, SEA, MENA, LATAM) — determines language, currency, content priorities
-- [ ] Google share in target market confirmed (>90% in most Western markets; Yandex in RU, Naver in KR, Yahoo in JP — different rules)
-- [ ] AI search considered: ChatGPT/Perplexity/Claude have significant share for B2B and tech queries in US — GEO (§3.19) weighted heavily
-- [ ] Baidu-specific tactics removed from the target-market site (no `baidu-site-verification`, no `百度统计`, no Baidu-preferred image dimensions)
+#### Must-Pass Checks
+- [ ] Primary target market identified (US / UK / EU / SEA / MENA / LATAM) — drives language + currency + content
+- [ ] Baidu-specific tactics removed from target-market site (no `baidu-site-verification`, no 百度统计)
+- [ ] Domain strategy decided: `.com` + subfolder (default) / ccTLD (local-heavy) / subdomain (middle ground). Avoid `.cn` for target market
+- [ ] Hosting in target region or global CDN with edge in target region — latency is a CWV signal
+- [ ] Hreflang bidirectional `zh-CN` ↔ `en-US` + `x-default` (points to English for non-Chinese visitors)
+- [ ] English brand name trademarked in target markets (USPTO/EUIPO)
+- [ ] Western E-E-A-T signals: real author bylines + photos + LinkedIn, press mentions, physical address, GDPR/CCPA policy
+- [ ] Chinese trust signals removed from target-market site (ICP备案号, 百度信誉, 淘宝/天猫 badges)
+- [ ] Content transcreated (not machine-translated); cultural references adapted
+- [ ] No Chinese CDN / fonts / analytics on target-market site (slow / blocked / GDPR-risk)
+- [ ] G2 / Capterra / TrustRadius / Trustpilot presence — feeds both Google and LLMs
 
-#### Domain & URL Strategy
-- [ ] Domain strategy chosen with tradeoffs documented:
-    - **`.com` + subfolder `/en/`, `/de/`**: centralizes authority, lowest cost, best for most
-    - **`.com` + ccTLD (`.de`, `.co.uk`)**: strongest local signal, highest cost, best for local-business markets
-    - **`.com` + subdomain (`us.brand.com`)**: middle ground, Google treats as separate site
-- [ ] Avoid `.cn` TLD for target-market site — Western users associate it with "Chinese site" and trust drops
-- [ ] Avoid brand name containing Chinese characters or pinyin that's hard to pronounce — rebrand if needed (many 出海 brands use a new English name)
-- [ ] Domain age/history checked — don't buy a domain with prior spam penalty (use `archive.org` + Wayback + tools like Ahrefs backlink history)
-- [ ] Hosting in target region (or on global CDN with edge in target region) — latency is a CWV signal
-
-#### Hreflang for zh → en/multi Transition
-- [ ] If existing `zh` site: hreflang bidirectional `zh-CN` ↔ `en-US` + `x-default` (point to English for non-Chinese visitors)
-- [ ] Decide whether to expose the Chinese site to Western Google at all — if it outranks the English version due to domain age, hreflang + canonical are critical
-- [ ] Language switcher uses flags CAUTIOUSLY — language ≠ country; prefer language names ("English", "中文")
-- [ ] GSC International Targeting set per subfolder/subdomain (if using subfolder strategy)
-
-#### Brand Internationalization
-- [ ] English brand name defined + trademarked in target markets (trademark checks via USPTO/EUIPO before launch)
-- [ ] Brand `Organization` schema with `sameAs` linking to: English LinkedIn, English Twitter/X, Crunchbase, Wikipedia (if applicable), press mentions
-- [ ] Founder/exec `Person` schema if they have English-language presence (LinkedIn, speaking events, interviews)
-- [ ] About page tells company story for Western audience (why founded, who leads, where based — transparency wins trust)
-- [ ] Avoid "We are the leading..." superlative copy — Western SEO trusts specifics; replace with quantified claims and citations
-
-#### Western E-E-A-T Adaptation
-- [ ] **Experience**: First-hand usage, case studies, real customer names (not "Company A", "客户甲") — privacy-anonymized OK, fake-anonymized hurts
-- [ ] **Expertise**: Author bylines with real person names, photos, LinkedIn links — ghost-written-by-agency content detected by Google's HCU
-- [ ] **Authoritativeness**: Press mentions (TechCrunch, Forbes, Bloomberg — earned via PR, not buy-links), awards, certifications relevant to target market (SOC 2, GDPR compliance badge)
-- [ ] **Trust**: Physical address in target market (or at minimum company HQ address publicly visible), phone with target-market country code, privacy policy GDPR/CCPA compliant, clear refund/return policy
-- [ ] Contact page shows real human faces / team — builds trust that matters for Western conversion
-- [ ] Remove or translate all Chinese-market trust signals (ICP备案号, 百度信誉, 淘宝/天猫 badges) from the target-market site
-
-#### Content Localization Quality (Not Just Translation)
-- [ ] Content is transcreated, not machine-translated — even human-translated-from-Chinese often reads awkwardly; rewrite natively when possible
-- [ ] Cultural references adapted (Chinese internet memes, 双11 → Black Friday, 长辈 → aunt/uncle, etc.)
-- [ ] Examples use Western names, companies, currencies, units (USD/EUR, imperial where applicable)
-- [ ] Date formats: MM/DD/YYYY for US, DD/MM/YYYY for UK/EU; ISO `<time datetime="">` for schema
-- [ ] Avoid direct translation of Chinese marketing idioms ("一站式解决方案" → "one-stop solution" is OK but overused; vary)
-- [ ] Tone calibrated: Western B2B is more skeptical, data-driven, less hype; Western B2C allows more personality
-
-#### AI Search Visibility in Western Markets
-- [ ] ChatGPT / Perplexity / Claude / Google AI Overview tested with relevant queries — is brand being cited?
-- [ ] llms.txt prioritizes English (or target language) content — AI crawlers prefer clean, structured English docs
-- [ ] Brand presence in AI training-relevant sources: Wikipedia (if notable enough), G2/Capterra reviews, Product Hunt, HackerNews, Reddit discussions, YouTube English-language content
-- [ ] Western review sites targeted: G2, Capterra, TrustRadius (B2B SaaS), Trustpilot (consumer) — reviews here feed both Google and LLMs
-
-#### Chinese Origin — Strategic Disclosure
-- [ ] Decide disclosure strategy: some markets (US gov, enterprise security) require origin transparency; consumer markets less so
-- [ ] If transparent: "Founded in Shenzhen, with offices in [target market]" is fine and often helps
-- [ ] If headquartered abroad: make sure the corporate structure reflects reality — Google and users can see through shell entities via LinkedIn, press, Crunchbase
-- [ ] Data residency clearly stated (where is user data stored? — critical for EU GDPR and US enterprise)
-
-#### Technical Pitfalls Specific to 出海
-- [ ] Chinese CDN / hosting (Aliyun CN, Tencent Cloud CN) NOT used for target-market site — slow outside China + may be blocked by some firewalls; use Cloudflare, AWS, Vercel, Fastly
-- [ ] No font CDNs that are slow/blocked outside China (don't use `fonts.useso.com`, alibaba fonts CDN — use Google Fonts or self-host)
-- [ ] No tracking/analytics scripts from Chinese vendors on target-market site (triggers Western privacy concerns; GDPR requires consent)
-- [ ] Images optimized with Western-market-appropriate formats (WebP/AVIF widely supported) and hosted on global CDN
-- [ ] No hardcoded Chinese phone/WeChat/QQ contact on target-market site — use market-local support channels
-
-#### Localization Beyond English
-- [ ] If expanding to non-English markets (DE, FR, JP, KR, ES): native speakers review content, not just translators
-- [ ] Each language targeted has its own keyword research — direct translation of Chinese keywords misses local search behavior
-- [ ] Currency, payment methods relevant to target market (Alipay/WeChat Pay NOT required; PayPal, Stripe, SEPA, iDEAL, etc. per market)
-- [ ] Support hours overlap with target market business hours OR 24/7 documented
-- [ ] Meta `og:locale` and `og:locale:alternate` set correctly per page
-
-#### Western Link Building Channels
-- [ ] Guest posting on Western industry blogs (quality matters more than quantity — one Forbes > 50 spam directories)
-- [ ] HARO (Help a Reporter Out) / Qwoted / Connectively responses for earned media
-- [ ] Open source / free tools as linkable assets (§3.34 — free tools)
-- [ ] Data studies / original research — publishable assets that Western press and AI training data will cite
-- [ ] Avoid Chinese-style "友情链接" (friend links) sections — Google treats as manipulative
+#### Deep-dive topics (see `references/going-global-seo.md`)
+- Domain strategy tradeoffs (subfolder vs ccTLD vs subdomain)
+- Western E-E-A-T adaptation (experience / expertise / authority / trust)
+- AI search visibility in Western markets (Wikipedia, HN, Reddit, YouTube)
+- Chinese origin — strategic disclosure decisions
+- Localization beyond English (DE/FR/JP/KR/ES native review)
+- Western link building channels (HARO, guest posts, data studies)
 
 ---
 
@@ -2384,11 +2014,15 @@ When fixing issues:
 - RSS: `@astrojs/rss` integration
 - Config: `site` property required for canonical URLs and sitemap
 
-### Next.js (App Router)
-- Meta tags: `export const metadata` in `layout.tsx` / `page.tsx`
-- Sitemap: `app/sitemap.ts` with `MetadataRoute.Sitemap` return type
-- Robots: `app/robots.ts` with `MetadataRoute.Robots` return type
-- OG images: `app/opengraph-image.tsx` for dynamic generation
+### Next.js (App Router, 15 / 16+)
+- Meta tags: `export const metadata` (static) or `export async function generateMetadata(...)` (dynamic) in `layout.tsx` / `page.tsx`
+- **`metadataBase`**: set in root `layout.tsx` metadata — required for absolute OG/Twitter image URLs; without it, `og:image` may resolve to wrong origin in preview deployments
+- Sitemap: `app/sitemap.ts` (or `app/sitemap.(xml|ts)/route.ts` for splits) returning `MetadataRoute.Sitemap`
+- Robots: `app/robots.ts` returning `MetadataRoute.Robots`
+- OG images: `app/opengraph-image.tsx` (and `twitter-image.tsx`) using the built-in `ImageResponse` — convention-based, no manual route needed
+- **Next.js 16 Cache Components** (`use cache` directive): for SEO pages with PPR, the static shell (title, meta, above-fold content) prerenders; dynamic bits hydrate. Apply `'use cache'` to data fetchers used in `generateMetadata` so metadata itself is cacheable
+- **Large product/doc catalogs**: prefer `generateStaticParams` + `export const dynamicParams = false` (build-time full SSG) over on-demand ISR when the set is known; avoids stale metadata and crawl-budget churn
+- **`next-sitemap` plugin is no longer needed** in App Router projects — the built-in `app/sitemap.ts` and `app/robots.ts` exports replace it
 
 ### Nuxt
 - Meta tags: `useHead()` composable or `nuxt.config.ts` app.head; use `useSeoMeta()` for OG/Twitter

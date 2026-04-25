@@ -119,9 +119,14 @@ curl -sL https://raw.githubusercontent.com/anxiong2025/seo-skill/main/SKILL.md \
 ```
 
 ```bash
-# 可选：下载参考文档（关键词研究、竞品分析、Schema 模板等）
+# 可选：下载参考文档（深度手册、关键词研究、Schema 模板等）
 mkdir -p .claude/skills/seo/references
-for f in keyword-research-guide competitor-analysis-guide schema-templates meta-tag-spec og-image-guide; do
+for f in \
+  audit-modes-guide core-web-vitals-guide common-seo-mistakes \
+  geo-llm-optimization ecommerce-seo saas-seo docs-seo going-global-seo \
+  keyword-research-guide competitor-analysis-guide \
+  meta-tag-spec og-image-guide \
+  schema-templates schema-article schema-product schema-faq-howto schema-organization; do
   curl -sL "https://raw.githubusercontent.com/anxiong2025/seo-skill/main/references/${f}.md" \
     -o ".claude/skills/seo/references/${f}.md"
 done
@@ -251,11 +256,23 @@ done
 
 | 文件 | 内容 |
 |:------|:------|
+| `audit-modes-guide.md` | 三种审计模式 + GSC/GA4 配置流程 + 免登录工具清单 |
+| `core-web-vitals-guide.md` | CWV 深度诊断：INP 杀手、第三方脚本预算、Field vs Lab |
+| `common-seo-mistakes.md` | 最常见的 15 类错误速查（同类相食、重定向链、noindex 泄漏…） |
+| `geo-llm-optimization.md` | GEO 深入：llms.txt、多引擎引用、零点击、幻觉规避 |
+| `ecommerce-seo.md` | 电商：变体规范化、Merchant Center、季节内容日历、Marketplace |
+| `saas-seo.md` | SaaS：功能页、vs/alternatives/migrate 页、定价页 SSR 决策树 |
+| `docs-seo.md` | 开发者文档：版本管理、API 参考、llms.txt、README 去重 |
+| `going-global-seo.md` | 出海：域名策略、Western E-E-A-T、本地化深度 |
 | `keyword-research-guide.md` | 关键词研究全流程：种子词 → 意图分类 → 缺口分析 |
 | `competitor-analysis-guide.md` | 竞品分析：页面对比、SERP 特征、内容差异化 |
-| `schema-templates.md` | 12 种 JSON-LD 模板，复制即用 |
 | `meta-tag-spec.md` | Meta 标签规范：长度限制、格式、常见错误 |
 | `og-image-guide.md` | OG 图生成 4 种方案（SVG / Puppeteer / Satori / @vercel/og） |
+| `schema-templates.md` | JSON-LD 索引（按实体类型分拆） |
+| `schema-article.md` | 文章类：Article / NewsArticle / BreadcrumbList |
+| `schema-product.md` | 电商类：Product / ProductGroup / Review / AggregateRating |
+| `schema-faq-howto.md` | FAQ / HowTo / Recipe / QAPage |
+| `schema-organization.md` | Organization / WebSite / LocalBusiness / Event / Course |
 
 <br>
 
@@ -271,12 +288,24 @@ seo-skill/
 ├── README.es.md          # Español
 ├── README.ar.md          # العربية
 ├── LICENSE               # MIT
-├── references/           # 参考文档（安装时可选下载）
+├── references/           # 参考文档（17 份，按需加载）
+│   ├── audit-modes-guide.md
+│   ├── core-web-vitals-guide.md
+│   ├── common-seo-mistakes.md
+│   ├── geo-llm-optimization.md
+│   ├── ecommerce-seo.md
+│   ├── saas-seo.md
+│   ├── docs-seo.md
+│   ├── going-global-seo.md
 │   ├── keyword-research-guide.md
 │   ├── competitor-analysis-guide.md
-│   ├── schema-templates.md
 │   ├── meta-tag-spec.md
-│   └── og-image-guide.md
+│   ├── og-image-guide.md
+│   ├── schema-templates.md
+│   ├── schema-article.md
+│   ├── schema-product.md
+│   ├── schema-faq-howto.md
+│   └── schema-organization.md
 └── examples/             # 完整项目示例
     ├── astro-site/       # Astro：meta 标签、JSON-LD、sitemap
     └── nextjs-site/      # Next.js：Metadata API、generateMetadata

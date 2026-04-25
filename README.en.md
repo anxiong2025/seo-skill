@@ -119,9 +119,14 @@ curl -sL https://raw.githubusercontent.com/anxiong2025/seo-skill/main/SKILL.md \
 ```
 
 ```bash
-# Optional: download reference docs (keyword research, competitor analysis, Schema templates, etc.)
+# Optional: download reference docs (deep playbooks, keyword research, schema templates, etc.)
 mkdir -p .claude/skills/seo/references
-for f in keyword-research-guide competitor-analysis-guide schema-templates meta-tag-spec og-image-guide; do
+for f in \
+  audit-modes-guide core-web-vitals-guide common-seo-mistakes \
+  geo-llm-optimization ecommerce-seo saas-seo docs-seo going-global-seo \
+  keyword-research-guide competitor-analysis-guide \
+  meta-tag-spec og-image-guide \
+  schema-templates schema-article schema-product schema-faq-howto schema-organization; do
   curl -sL "https://raw.githubusercontent.com/anxiong2025/seo-skill/main/references/${f}.md" \
     -o ".claude/skills/seo/references/${f}.md"
 done
@@ -251,11 +256,23 @@ Optional download at install time — Claude uses these automatically during aud
 
 | File | Contents |
 |:------|:------|
+| `audit-modes-guide.md` | The three audit modes + GSC/GA4 setup + no-login tool list |
+| `core-web-vitals-guide.md` | Deep CWV diagnosis: INP killers, third-party script budget, field vs lab |
+| `common-seo-mistakes.md` | Fast scan for the 15 most common errors (cannibalization, redirect chains, noindex leaks…) |
+| `geo-llm-optimization.md` | GEO deep dive: llms.txt, multi-engine citation, zero-click, hallucination mitigation |
+| `ecommerce-seo.md` | E-commerce: variant canonicalization, Merchant Center, seasonal calendar, marketplace |
+| `saas-seo.md` | SaaS: feature pages, vs/alternatives/migrate pages, pricing SSR decision tree |
+| `docs-seo.md` | Developer docs: version management, API references, llms.txt, README dedup |
+| `going-global-seo.md` | 出海 / going global: domain strategy, Western E-E-A-T, localization depth |
 | `keyword-research-guide.md` | Full keyword research workflow: seed → intent → gap analysis |
 | `competitor-analysis-guide.md` | Competitor analysis: page comparison, SERP features, content differentiation |
-| `schema-templates.md` | 12 ready-to-use JSON-LD templates |
 | `meta-tag-spec.md` | Meta tag spec: length limits, format, common mistakes |
 | `og-image-guide.md` | OG image generation: 4 approaches (SVG / Puppeteer / Satori / @vercel/og) |
+| `schema-templates.md` | JSON-LD index (split by entity type) |
+| `schema-article.md` | Article / NewsArticle / TechArticle / BreadcrumbList |
+| `schema-product.md` | Product / ProductGroup / Review / AggregateRating |
+| `schema-faq-howto.md` | FAQPage / HowTo / Recipe / QAPage |
+| `schema-organization.md` | Organization / WebSite / LocalBusiness / Event / Course |
 
 <br>
 
@@ -271,7 +288,7 @@ seo-skill/
 ├── README.es.md          # Español
 ├── README.ar.md          # العربية
 ├── LICENSE               # MIT
-├── references/           # Reference docs (optional download)
+├── references/           # Reference docs (17 files, loaded on demand)
 └── examples/             # Full project examples
     ├── astro-site/
     └── nextjs-site/

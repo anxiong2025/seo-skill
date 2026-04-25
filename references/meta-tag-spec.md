@@ -36,7 +36,10 @@ Quick reference for all SEO-relevant meta tags with correct values and limits.
 
 ---
 
-## Twitter Card Tags
+## X / Twitter Card Tags
+
+The platform rebranded to X in 2023, but the tag names still use the `twitter:`
+prefix — X honors them, and LinkedIn/Slack/Discord use them as OG fallbacks.
 
 | Tag | Value | Notes |
 |-----|-------|-------|
@@ -44,8 +47,8 @@ Quick reference for all SEO-relevant meta tags with correct values and limits.
 | `twitter:title` | Same as `og:title` | Falls back to `og:title` if missing |
 | `twitter:description` | Same as `og:description` | Falls back to `og:description` |
 | `twitter:image` | Absolute URL | 1200×675px (16:9) recommended |
-| `twitter:creator` | `@username` | Optional, author's Twitter handle |
-| `twitter:site` | `@username` | Optional, site's Twitter handle |
+| `twitter:creator` | `@username` | Optional, author's X handle |
+| `twitter:site` | `@username` | Optional, site's X handle |
 
 ---
 
